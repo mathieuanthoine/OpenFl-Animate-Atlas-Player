@@ -1,9 +1,9 @@
 package;
 
+import animateAtlasPlayer.assets.AssetManager;
+import animateAtlasPlayer.core.Animation;
 import flash.display.Sprite;
 import openfl.events.Event;
-import starling.extensions.animate.Animation;
-import starling.extensions.animate.AssetManagerEx;
 
 /**
  * ...
@@ -20,7 +20,7 @@ class Demo extends Sprite
 		
 	}
 	
-	public function start(assets:AssetManagerEx):Void {
+	public function start(assets:AssetManager):Void {
 		
 		var lNinjas:Array<Animation> = new Array<Animation>();
 		

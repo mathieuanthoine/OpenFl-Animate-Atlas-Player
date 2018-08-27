@@ -1,5 +1,6 @@
 package;
 
+import animateAtlasPlayer.assets.AssetManager;
 import com.isartdigital.utils.Config;
 import com.isartdigital.utils.game.GameStage;
 import com.isartdigital.utils.game.GameStageScale;
@@ -9,7 +10,6 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.events.Event;
-import starling.extensions.animate.AssetManagerEx;
 
 class Main extends Sprite {
 		
@@ -42,7 +42,7 @@ class Main extends Sprite {
 		
 		var demo:Demo = new Demo();
 		addChild(demo);
-        var assets:AssetManagerEx = new AssetManagerEx();
+        var assets:AssetManager = new AssetManager();
 		
 		//TODO: méthode d'automatisation en fonction juste du nom du dossier
 		// Parsing du nom pour éviter tous les accents et autres tirets...
@@ -57,11 +57,6 @@ class Main extends Sprite {
 		
 		assets.loadQueue(demo.start);
 		
-	}
-	
-	private function onEnterFrame(pEvent:Event):Void 
-	{
-	
 	}
 	
 	public function resize (pEvent:Event = null): Void {
