@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="HelloWorld" package="com.sample.helloworld" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="HelloWorld" />
+	
+	<source path="src" />
+	
+	<haxelib name="openfl" />
+	
+	<assets path="Assets" rename="assets" embed="true" />
+
+	<window background="#FFFFFF" fps="60" />
+	<!--<window width="2160" height="1440" background="#FFFFFF" fps="60" />-->
+	<!--<window hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="false" stencil-buffer="false" />-->
+	<!--<window fullscreen="false" resizable="true" borderless="false" vsync="false" />-->
+	<!--<window orientation="portrait" />-->
+	
+</project>

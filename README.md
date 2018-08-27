@@ -1,2 +1,7 @@
 # OpenFl-Animate-Atlas-Player
-Player for Adobe Animate Atlas format for OpenFl
+OpenFl Player for Adobe Animate Atlas format
+Based on the Starling version
+
+Early version, not for use.
+
+
