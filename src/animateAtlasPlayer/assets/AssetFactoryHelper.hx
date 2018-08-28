@@ -1,9 +1,5 @@
 package animateAtlasPlayer.assets;
 
-/**
- * ...
- * @author Mathieu Anthoine
- */
 class AssetFactoryHelper 
 {
 

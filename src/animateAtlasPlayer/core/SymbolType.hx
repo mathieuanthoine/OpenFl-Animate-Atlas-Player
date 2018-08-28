@@ -1,7 +1,5 @@
 package animateAtlasPlayer.core;
 
-//import animateAtlasPlayer.errors.AbstractClassError;
-
 class SymbolType
 {
     

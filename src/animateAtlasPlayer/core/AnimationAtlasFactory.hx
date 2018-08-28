@@ -1,11 +1,10 @@
 package animateAtlasPlayer.core;
 
-import haxe.Json;
-import js.Lib;
-import openfl.display.BitmapData;
 import animateAtlasPlayer.assets.AssetManager;
 import animateAtlasPlayer.assets.AssetReference;
 import animateAtlasPlayer.assets.JsonFactory;
+import haxe.Json;
+import openfl.display.BitmapData;
 
 class AnimationAtlasFactory extends JsonFactory
 {

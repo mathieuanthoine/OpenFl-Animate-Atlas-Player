@@ -1,6 +1,5 @@
 package animateAtlasPlayer.assets;
 
-/** The description of an asset to be created by an AssetFactory. */
 class AssetReference
 {
     public var name(get, set) : String;
@@ -17,11 +16,7 @@ class AssetReference
     private var _data : Dynamic;
     private var _mimeType : String;
     private var _extension : String;
-    //TODO: ? private var _textureOptions : TextureOptions;
-    
-    /** Creates a new instance with the given data, which is typically some kind of file
-     *  reference / URL or an instancse of an asset class. If 'data' contains an URL, an
-     *  equivalent value will be assigned to the 'url' property. */
+
     public function new(data : Dynamic)
     {
         _data = data;
@@ -36,8 +31,7 @@ class AssetReference
             //_url = Std.string(Reflect.field(data, "url"));
         //}
     }
-    
-    /** The name with which the asset should be added to the AssetManager. */
+
     private function get_name() : String
     {
         return _name;
@@ -47,8 +41,7 @@ class AssetReference
         _name = value;
         return value;
     }
-    
-    /** The url from which the asset needs to be / has been loaded. */
+
     private function get_url() : String
     {
         return _url;
@@ -58,10 +51,7 @@ class AssetReference
         _url = value;
         return value;
     }
-    
-    /** The raw data of the asset. This property often contains an URL; when it's passed
-     *  to an AssetFactory, loading has already completed, and the property contains a
-     *  ByteArray with the loaded data. */
+
     private function get_data() : Dynamic
     {
         return _data;
@@ -71,8 +61,7 @@ class AssetReference
         _data = value;
         return value;
     }
-    
-    /** The mime type of the asset, if loaded from a server. */
+
     private function get_mimeType() : String
     {
         return _mimeType;
@@ -82,8 +71,7 @@ class AssetReference
         _mimeType = value;
         return value;
     }
-    
-    /** The file extension of the asset, if the filename or URL contains one. */
+
     private function get_extension() : String
     {
         return _extension;
@@ -93,17 +81,6 @@ class AssetReference
         _extension = value;
         return value;
     }
-    
-    /** The TextureOptions describing how to create a texture, if the asset references one. */
-    //private function get_textureOptions() : TextureOptions
-    //{
-        //return _textureOptions;
-    //}
-    //private function set_textureOptions(value : TextureOptions) : TextureOptions
-    //{
-        //_textureOptions.copyFrom(value);
-        //return value;
-    //}
     
     private function get_filename() : String
     {

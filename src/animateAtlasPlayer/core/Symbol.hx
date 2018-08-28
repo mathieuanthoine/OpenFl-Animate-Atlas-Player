@@ -1,6 +1,6 @@
 package animateAtlasPlayer.core;
 
-import com.isartdigital.utils.game.GameStage;
+import animateAtlasPlayer.utils.MathUtil;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObjectContainer;
@@ -9,8 +9,6 @@ import openfl.display.Sprite;
 import openfl.errors.ArgumentError;
 import openfl.errors.Error;
 import openfl.geom.Matrix;
-import openfl.utils.Assets;
-import animateAtlasPlayer.utils.MathUtil;
 
 class Symbol extends DisplayObjectContainer
 {
@@ -60,7 +58,6 @@ class Symbol extends DisplayObjectContainer
     {
         sMatrix.identity();
 		
-		//TODO: ?? transformationMatrix = sMatrix;
 		transform.matrix = sMatrix;
         alpha = 1.0;
         _currentFrame = 0;
@@ -236,7 +233,6 @@ class Symbol extends DisplayObjectContainer
     private function setTransformationMatrix(data : Dynamic) : Void
     {
         sMatrix.setTo(data.m00, data.m01, data.m10, data.m11, data.m30, data.m31);
-        //TODO: transformationMatrix = sMatrix;
         transform.matrix = sMatrix;
     }
     
@@ -293,7 +289,6 @@ class Symbol extends DisplayObjectContainer
             }
         }
         
-        //return numFrames || 1;
         return numFrames>0 ? numFrames : 1;
     }
     

@@ -1,9 +1,5 @@
 package animateAtlasPlayer.utils;
 
-/**
- * ...
- * @author Mathieu Anthoine
- */
 class ArrayUtil 
 {
 

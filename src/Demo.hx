@@ -22,15 +22,16 @@ class Demo extends Sprite
 	
 	public function start(assets:AssetManager):Void {
 		
+		trace (stage.stageWidth, stage.stageHeight);
+		
 		var lNinjas:Array<Animation> = new Array<Animation>();
 		
 		for (i in 0...80) {
 		
 			_ninja = assets.createAnimation("ninja-girl");
-			//_ninja.x = stage.stageWidth / 2;
 			_ninja.x = stage.stageWidth * Math.random();
-			//_ninja.y = stage.stageHeight / 2 + stage.stageHeight * 0.2;
 			_ninja.y = stage.stageHeight * Math.random();
+			
 			_ninja.frameRate = 24;
 			var lScale:Float = 0.75 + 0.25 * Math.random();
 			_ninja.scaleX = lScale*(Math.random()>0.5 ? -1 :1);

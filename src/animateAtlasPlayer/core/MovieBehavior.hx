@@ -1,23 +1,12 @@
 package animateAtlasPlayer.core;
 
+import animateAtlasPlayer.utils.MathUtil;
 import openfl.display.DisplayObject;
 import openfl.errors.ArgumentError;
-import openfl.errors.Error;
 import openfl.events.Event;
 import openfl.events.EventDispatcher;
-import animateAtlasPlayer.assets.IAnimatable;
-import animateAtlasPlayer.utils.MathUtil;
 
-//import flash.errors.ArgumentError;
-//import flash.errors.Error;
-//import animateAtlasPlayer.animation.IAnimatable;
-//import animateAtlasPlayer.display.DisplayObject;
-//import animateAtlasPlayer.events.Event;
-//import animateAtlasPlayer.events.EventDispatcher;
-//import animateAtlasPlayer.utils.MathUtil;
-
-
-class MovieBehavior extends EventDispatcher implements IAnimatable
+class MovieBehavior extends EventDispatcher
 {
     public var numFrames(get, set) : Int;
     public var totalTime(get, never) : Float;
@@ -40,8 +29,6 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
     
     private static inline var E : Float = 0.00001;
     
-    /** Creates a new movie behavior for the given target. Whenever the frame changes,
-     *  the callback will be executed. */
     public function new(target : DisplayObject, onFrameChanged : Int->Void,
             frameRate : Float = 24)
     {
@@ -70,30 +57,23 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         _wasStopped = true;
     }
     
-    // playback methods
-    
-    /** Starts playback. Beware that the clip has to be added to a juggler, too! */
     public function play() : Void
     {
         _playing = true;
     }
     
-    /** Pauses playback. */
     public function pause() : Void
     {
         _playing = false;
     }
     
-    /** Stops playback, resetting "currentFrame" to zero. */
     public function stop() : Void
     {
         _playing = false;
         _wasStopped = true;
         currentFrame = 0;
     }
-    
-    // frame actions
-    
+
     public function addFrameAction(index : Int, action : Void->Void) : Void
     {
         getFrameAt(index).addAction(action);
@@ -118,9 +98,6 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         return _frames[index];
     }
     
-    // IAnimatable
-    
-    /** @inheritDoc */
     public function advanceTime(passedTime : Float) : Void
     {
         if (!_playing)
@@ -246,9 +223,6 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         _currentTime += passedTime;
     }
     
-    // properties
-    
-    /** The total number of frames. */
     private function get_numFrames() : Int
     {
         return _frames.length;
@@ -264,13 +238,11 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         return value;
     }
     
-    /** The total duration of the clip in seconds. */
     private function get_totalTime() : Float
     {
         return numFrames * _frameDuration;
     }
     
-    /** The time that has passed since the clip was started (each loop starts at zero). */
     private function get_currentTime() : Float
     {
         return _currentTime;
@@ -308,7 +280,6 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         return value;
     }
     
-    /** Indicates if the clip should loop. @default true */
     private function get_loop() : Bool
     {
         return _loop;
@@ -319,7 +290,6 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         return value;
     }
     
-    /** The index of the frame that is currently displayed. */
     private function get_currentFrame() : Int
     {
         return _currentFrame;
@@ -338,9 +308,7 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         }
         return value;
     }
-    
-    /** Indicates if the clip is still playing. Returns <code>false</code> when the end
-     *  is reached. */
+	
     private function get_isPlaying() : Bool
     {
         if (_playing)
@@ -353,14 +321,11 @@ class MovieBehavior extends EventDispatcher implements IAnimatable
         }
     }
     
-    /** Indicates if a (non-looping) movie has come to its end. */
     private function get_isComplete() : Bool
     {
         return !_loop && _currentTime >= totalTime;
     }
 }
-
-
 
 class MovieFrame
 {

@@ -1,10 +1,9 @@
 package animateAtlasPlayer.core;
 
-import haxe.Json;
-import openfl.display.BitmapData;
-import openfl.geom.Rectangle;
 import animateAtlasPlayer.textures.SubTexture;
 import animateAtlasPlayer.textures.TextureAtlas;
+import openfl.display.BitmapData;
+import openfl.geom.Rectangle;
 
 typedef SpriteDef = {
 	var name : String;

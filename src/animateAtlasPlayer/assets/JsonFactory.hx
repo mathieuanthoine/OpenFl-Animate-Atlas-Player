@@ -1,24 +1,14 @@
 package animateAtlasPlayer.assets;
-import openfl.utils.ByteArray;
 import animateAtlasPlayer.assets.AssetReference;
 
-/** This AssetFactory creates objects from JSON data. */
 class JsonFactory extends AssetFactory
 {
-    /** Creates a new instance. */
     public function new()
     {
         super();
         addExtensions("json");
         //TODO ? addMimeTypes("application/json", "text/json");
     }
-    
-    /** @inheritDoc */
-    //override public function canHandle(reference : AssetReference) : Bool
-    //{
-        //return super.canHandle(reference) || (Std.is(reference.data, ByteArray) &&
-        //ByteArrayUtil.startsWithString(try cast(reference.data, ByteArray) catch(e:Dynamic) null, "{"));
-    //}
     
     /** @inheritDoc */
     override public function create(reference : AssetReference,assets:AssetManager/*, helper : AssetFactoryHelper, onComplete : Function, onError : Function*/) : Void

@@ -1,14 +1,9 @@
 package animateAtlasPlayer.core;
 
-import haxe.Constraints.Function;
 import openfl.display.DisplayObjectContainer;
 import openfl.events.Event;
-import animateAtlasPlayer.assets.IAnimatable;
 
-//import animateAtlasPlayer.display.DisplayObjectContainer;
-//import animateAtlasPlayer.events.Event;
-
-class Animation extends DisplayObjectContainer /*implements IAnimatable*/
+class Animation extends DisplayObjectContainer
 {
     public var currentLabel(get, never) : String;
     public var currentFrame(get, set) : Int;

@@ -1,11 +1,9 @@
 package animateAtlasPlayer.core;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.errors.ArgumentError;
-import openfl.utils.Dictionary;
 import animateAtlasPlayer.textures.TextureAtlas;
 import animateAtlasPlayer.utils.ArrayUtil;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 
 typedef Frame = {
 	var name: String;
@@ -52,7 +50,6 @@ class AnimationAtlas
     private var _atlas : TextureAtlas;
     private var _symbolData : Map<String,Dynamic>;
     private var _symbolPool : Dynamic;
-    //TODO : ?? private var _symbolPool : Dictionary;
     private var _imagePool : Array<Dynamic>;
     private var _frameRate : Float;
     private var _defaultSymbolName : String;
@@ -81,7 +78,7 @@ class AnimationAtlas
         parseData(data);
         
         _atlas = atlas;
-        _symbolPool = {}; // TODO: new Dictionary();
+        _symbolPool = {};
         _imagePool = [];
     }
     
@@ -186,7 +183,6 @@ class AnimationAtlas
         
         if (metaData != null && metaData.frameRate > 0)
         {
-            //_frameRate = Std.parseInt(metaData.frameRate);
             _frameRate = metaData.frameRate;
         }
         else
@@ -207,14 +203,7 @@ class AnimationAtlas
         _defaultSymbolName = defaultSymbolData.SYMBOL_name;
         _symbolData[_defaultSymbolName]= defaultSymbolData;
 
-        // a purely internal symbol for bitmaps - simplifies their handling
-        //_symbolData.set(Symbol.BITMAP_SYMBOL_NAME, {
-                    //SYMBOL_name : Symbol.BITMAP_SYMBOL_NAME,
-                    //TIMELINE : {
-                        //LAYERS : []
-                    //}
-                //});
-				
+        // a purely internal symbol for bitmaps - simplifies their handling		
 		_symbolData[Symbol.BITMAP_SYMBOL_NAME]=	{
                     SYMBOL_name : Symbol.BITMAP_SYMBOL_NAME,
                     TIMELINE : {
