@@ -33,7 +33,8 @@ class Main extends Sprite
 		addChildAt(demo,0);
         var assets:AssetManager = new AssetManager();
 		
-		assets.enqueue("assets/ninja-girl");		
+		//assets.enqueue("assets/ninja-girl");		
+		assets.enqueue("assets/FX_Boule_electricite");		
 		
 		assets.loadQueue(demo.start);
 	}

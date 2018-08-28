@@ -28,7 +28,8 @@ class Demo extends Sprite
 		
 		for (i in 0...80) {
 		
-			_ninja = assets.createAnimation("ninja-girl");
+			//_ninja = assets.createAnimation("ninja-girl");
+			_ninja = assets.createAnimation("FX_Boule_electricite");
 			_ninja.x = stage.stageWidth * Math.random();
 			_ninja.y = stage.stageHeight * Math.random();
 			

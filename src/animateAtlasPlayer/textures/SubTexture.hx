@@ -32,7 +32,8 @@ class SubTexture extends BitmapData
     {
 		super(Std.int(region.width), Std.int(region.height));
 		//floodFill(0, 0, 0xFF00FF);
-		copyPixels(Assets.getBitmapData("assets/ninja-girl/spritemap.png"), region, new Point());
+		copyPixels(Assets.getBitmapData("assets/FX_Boule_electricite/spritemap.png"), region, new Point());
+		//copyPixels(Assets.getBitmapData("assets/ninja-girl/spritemap.png"), region, new Point());
 		//copyPixels(parent, region, new Point());
 		//TODO: traiter les autres parametres
     }
