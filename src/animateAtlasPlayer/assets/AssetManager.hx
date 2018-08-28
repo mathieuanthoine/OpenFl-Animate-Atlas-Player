@@ -32,9 +32,7 @@ class AssetManager extends EventDispatcher
     private var _assetFactories : Array<AssetFactory>;
     private var _numRestoredTextures : Int;
     private var _numLostTextures : Int;
-
-    private static var NAME_REGEX : EReg = new EReg('([^?\\/\\\\]+?)(?:\\.([\\w\\-]+))?(?:\\?.*)?$', "");
-    
+   
     private static inline var NO_NAME : String = "unnamed";
     private static var sNoNameCount : Int = 0;
     
@@ -59,12 +57,22 @@ class AssetManager extends EventDispatcher
         //registerFactory(new ByteArrayFactory(), -100);
 		registerFactory(new AnimationAtlasFactory(), 10);
     }
+	
+	public function enqueue(url : String) : Void {
+		if (getExtensionFromUrl(url) == "zip") {
+			trace ("TODO: zip files");
+		} else {
+			enqueueSingle(url+"/spritemap.json");
+			enqueueSingle(url+"/Animation.json");
+			enqueueSingle(url+"/spritemap.png");
+		}
+	}
     
     public function enqueueSingle(url : String, name : String = null/*, options : TextureOptions = null*/) : String
     {
 
 		var asset = getExtensionFromUrl(url) == "json" ? Json.parse(Assets.getText(url)) : Assets.getBitmapData(url);
-		
+
         var assetReference : AssetReference = new AssetReference(asset);
         if (name != null) assetReference.name = name;
 		else assetReference.name =  getNameFromUrl(url);
@@ -331,32 +339,14 @@ class AssetManager extends EventDispatcher
     
     private function getNameFromUrl(url : String) : String
     {
-        var defaultName : String=getSubName(url);
         var separator : String = "/";
-        
-        if (defaultName == "Animation" || defaultName == "spritemap" &&
-            url.indexOf(separator) != -1)
-        {
-            var elements : Array<Dynamic> = url.split(separator);
-            var folderName : String = elements[elements.length - 2];
-            var suffix : String = (defaultName == "Animation") ? AnimationAtlasFactory.ANIMATION_SUFFIX : "";
-            return getSubName(folderName + suffix);
-        }
-        
-        return defaultName;
+		var elements : Array<Dynamic> = url.split(separator);
+		var folderName : String = elements[elements.length - 2];
+		var fileName : String = elements[elements.length - 1];
+		var suffix : String = (fileName == "Animation.json") ? AnimationAtlasFactory.ANIMATION_SUFFIX : AnimationAtlasFactory.SPRITEMAP_SUFFIX;
+		return folderName+suffix;
     }
-	
-	private function getSubName (url:String): String {
-		if (url != null)
-        {
-            var matches : Array<String> = NAME_REGEX.split(url);
-            if (matches != null && matches.length > 0)
-            {
-                return matches[1];
-            }
-        }
-		return null;
-	}
+
 
     private function getExtensionFromUrl(url : String) : String
     {

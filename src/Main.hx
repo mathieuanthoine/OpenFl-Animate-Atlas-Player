@@ -33,9 +33,7 @@ class Main extends Sprite
 		addChildAt(demo,0);
         var assets:AssetManager = new AssetManager();
 		
-		assets.enqueueSingle("assets/ninja-girl/spritemap.json", "ninja_girl_spritemap");
-		assets.enqueueSingle("assets/ninja-girl/Animation.json","ninja_girl_animation");
-		assets.enqueueSingle("assets/ninja-girl/spritemap.png","ninja_girl");			
+		assets.enqueue("assets/ninja-girl");		
 		
 		assets.loadQueue(demo.start);
 	}
