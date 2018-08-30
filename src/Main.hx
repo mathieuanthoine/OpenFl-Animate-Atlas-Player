@@ -12,6 +12,9 @@ import openfl.Lib;
 class Main extends Sprite 
 {
 
+	public static inline var PUPPET:String = "ninja-girl";
+	public static inline var NUM:Int = 80;
+	
 	public function new() 
 	{
 		super();
@@ -34,7 +37,8 @@ class Main extends Sprite
         var assets:AssetManager = new AssetManager();
 		
 		//assets.enqueue("assets/ninja-girl");		
-		assets.enqueue("assets/FX_Boule_electricite");		
+		//assets.enqueue("assets/FX_Boule_electricite");		
+		assets.enqueue("assets/"+PUPPET);		
 		
 		assets.loadQueue(demo.start);
 	}

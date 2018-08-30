@@ -4,6 +4,7 @@ import animateAtlasPlayer.assets.AssetManager;
 import animateAtlasPlayer.assets.AssetReference;
 import animateAtlasPlayer.assets.JsonFactory;
 import haxe.Json;
+import js.Lib;
 import openfl.display.BitmapData;
 
 class AnimationAtlasFactory extends JsonFactory
@@ -28,7 +29,6 @@ class AnimationAtlasFactory extends JsonFactory
 			}
 			
 			var texture : BitmapData = assets.getTexture(name);
-
 			assets.addAsset(name, new JsonTextureAtlas(texture, json));
 
 		}

@@ -19,6 +19,6 @@
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->
 	
-	<window background="#000000"/>
+	<window background="#00CC00"/>
 	
 </project>

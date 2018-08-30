@@ -117,8 +117,7 @@ class TextureAtlas
         return subTexture != null ? subTexture.rotated : false;
     }
     
-    public function addRegion(name : String, region : Rectangle, frame : Rectangle = null,
-            rotated : Bool = false) : Void
+    public function addRegion(name : String, region : Rectangle, frame : Rectangle = null, rotated : Bool = false) : Void
     {
 		addSubTexture(name, new SubTexture(_atlasTexture, region, false, frame, rotated));
     }
@@ -150,5 +149,9 @@ class TextureAtlas
     {
         return _atlasTexture;
     }
+	
+	public function toString () : String {
+		return "[Object " +Type.getClassName(Type.getClass(this)).split(".").pop() + "]";
+	}
 }
 

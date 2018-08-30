@@ -6,6 +6,7 @@ import animateAtlasPlayer.core.AnimationAtlasFactory;
 import animateAtlasPlayer.textures.TextureAtlas;
 import animateAtlasPlayer.utils.ArrayUtil;
 import haxe.Json;
+import js.Lib;
 import openfl.Assets;
 import openfl.display.BitmapData;
 import openfl.events.EventDispatcher;
@@ -62,9 +63,9 @@ class AssetManager extends EventDispatcher
 		if (getExtensionFromUrl(url) == "zip") {
 			trace ("TODO: zip files");
 		} else {
+			enqueueSingle(url + "/spritemap.png");
 			enqueueSingle(url+"/spritemap.json");
-			enqueueSingle(url+"/Animation.json");
-			enqueueSingle(url+"/spritemap.png");
+			enqueueSingle(url+"/Animation.json");			
 		}
 	}
     
@@ -74,9 +75,13 @@ class AssetManager extends EventDispatcher
 		var asset = getExtensionFromUrl(url) == "json" ? Json.parse(Assets.getText(url)) : Assets.getBitmapData(url);
 
         var assetReference : AssetReference = new AssetReference(asset);
+		assetReference.extension = getExtensionFromUrl(url);
         if (name != null) assetReference.name = name;
-		else assetReference.name =  getNameFromUrl(url);
-        assetReference.extension = getExtensionFromUrl(url);
+		else {
+			assetReference.name =  getNameFromUrl(url);
+			if (assetReference.extension == "png") assetReference.name=StringTools.replace(assetReference.name, AnimationAtlasFactory.SPRITEMAP_SUFFIX, "");
+		}
+        
        // assetReference.textureOptions = options || _textureOptions;
         
         _queue.push(assetReference);
@@ -115,18 +120,19 @@ class AssetManager extends EventDispatcher
     
     public function addAsset(name : String, asset : Dynamic, type : String = null) : Void
     {
-        if (type == null && Std.is(asset, AnimationAtlas))
+
+		if (type == null && Std.is(asset, AnimationAtlas))
         {
             type = AnimationAtlas.ASSET_TYPE;
         }
 		
 		type = (type != null) ? type : AssetType.fromAsset(asset);
-        
+		
         var store : Map<String,Dynamic> = _assets[type];
         if (store == null)
         {
             store = new Map<String,Dynamic>();
-            _assets[type]= store;
+            _assets[type] = store;
         }
         
         trace("Adding " + type + " '" + name + "'");
@@ -138,7 +144,7 @@ class AssetManager extends EventDispatcher
             //TODO: disposeAsset(prevAsset);
         }
         
-        store[name]= asset;
+        store[name] = asset;
     }
 	
     public function getAnimationAtlas(name : String) : AnimationAtlas
@@ -192,7 +198,6 @@ class AssetManager extends EventDispatcher
 			
             if (type == AssetType.TEXTURE)
             {
-
 				var atlasStore : Map<String,Dynamic> = _assets[AssetType.TEXTURE_ATLAS];
                 if (atlasStore != null)
                 {
@@ -201,21 +206,18 @@ class AssetManager extends EventDispatcher
                         var texture : BitmapData = atlas.getTexture(name);
                         if (texture != null)
                         {
-                            return texture;
+							return texture;
                         }
                     }
                 }
             }
         }
+		
+		
 		var store : Map<String,Dynamic> = _assets[type];
-        if (store != null)
-        {
-            return store[name];
-        }
-        else
-        {
-            return null;
-        }
+        if (store != null) return store[name];
+        else return null;
+      
     }
     
     public function getAssetNames(assetType : String, prefix : String = "", recursive : Bool = true,

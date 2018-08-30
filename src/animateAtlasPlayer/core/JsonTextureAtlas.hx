@@ -62,4 +62,5 @@ class JsonTextureAtlas extends TextureAtlas
         }
 
     }
+
 }

@@ -12,10 +12,6 @@ class BitmapTextureFactory extends AssetFactory
     override public function create(reference : AssetReference,assets:AssetManager/*, helper : AssetFactoryHelper,
             onComplete : Function, onError : Function*/) : Void
     {
-		//var texture : BitmapData;
-        //var url : String = reference.url;
-        //var data : Dynamic = reference.data; //deja un bitmapData ?
-		
 		assets.addAsset(reference.name, reference.data);
 		
 

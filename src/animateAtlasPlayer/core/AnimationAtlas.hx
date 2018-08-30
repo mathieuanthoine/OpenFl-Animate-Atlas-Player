@@ -305,7 +305,7 @@ class AnimationAtlas
     }
 	
 	public function toString () : String {
-		return "[Object" +Type.getClassName(Type.getClass(this)).split(".").pop() + "]";
+		return "[Object " +Type.getClassName(Type.getClass(this)).split(".").pop() + "]";
 	}
 }
 

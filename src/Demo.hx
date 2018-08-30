@@ -26,12 +26,12 @@ class Demo extends Sprite
 		
 		var lNinjas:Array<Animation> = new Array<Animation>();
 		
-		for (i in 0...80) {
+		for (i in 0...Main.NUM) {
 		
-			//_ninja = assets.createAnimation("ninja-girl");
-			_ninja = assets.createAnimation("FX_Boule_electricite");
-			_ninja.x = stage.stageWidth * Math.random();
-			_ninja.y = stage.stageHeight * Math.random();
+			//_ninja = Math.random()<0.5 ? assets.createAnimation("ninja-girl") : assets.createAnimation("FX_Boule_electricite");
+			_ninja = assets.createAnimation(Main.PUPPET);
+			_ninja.x = stage.stageWidth * (Main.NUM==1 ? 0.5 : Math.random());
+			_ninja.y = stage.stageHeight * (Main.NUM==1 ? 0.5 : Math.random());
 			
 			_ninja.frameRate = 24;
 			var lScale:Float = 0.75 + 0.25 * Math.random();
