@@ -9,6 +9,7 @@ import haxe.Json;
 import js.Lib;
 import openfl.Assets;
 import openfl.display.BitmapData;
+import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.utils.ByteArray;
 
@@ -45,7 +46,7 @@ class AssetManager extends EventDispatcher
         _assets = new Map<String,Map<String,Dynamic>>();
         _verbose = true;
         //_textureOptions = new TextureOptions(scaleFactor);
-        _queue = [];
+        _queue = new Array<AssetReference>();
         _numConnections = 3;
         //_dataLoader = new DataLoader();
         _assetFactories = [];
@@ -59,6 +60,37 @@ class AssetManager extends EventDispatcher
 		registerFactory(new AnimationAtlasFactory(), 10);
     }
 	
+	public function dispose() : Void
+    {
+        purgeQueue();
+        
+        for (store in _assets)
+        {
+            for (asset in store)
+            {
+                disposeAsset(asset);
+            }
+        }
+    }
+    
+    public function purge() : Void
+    {
+        trace("Purging all assets, emptying queue");
+        
+        purgeQueue();
+        dispose();
+        
+        _assets = new Map<String,Map<String,Dynamic>>();
+    }
+     
+    public function purgeQueue() : Void
+    {
+        //as3hx.Compat.setArrayLength(_queue, 0);
+		_queue = new Array<AssetReference>();
+        //TODO dispatchEventWith(Event.CANCEL);
+		dispatchEvent(new Event(Event.CANCEL));
+    }
+	
 	public function enqueue(url : String) : Void {
 		if (getExtensionFromUrl(url) == "zip") {
 			trace ("TODO: zip files");
@@ -69,7 +101,7 @@ class AssetManager extends EventDispatcher
 		}
 	}
     
-    public function enqueueSingle(url : String, name : String = null/*, options : TextureOptions = null*/) : String
+    private function enqueueSingle(url : String, name : String = null/*, options : TextureOptions = null*/) : String
     {
 
 		var asset = getExtensionFromUrl(url) == "json" ? Json.parse(Assets.getText(url)) : Assets.getBitmapData(url);
@@ -140,8 +172,8 @@ class AssetManager extends EventDispatcher
         var prevAsset : Map<String,Dynamic> = store[name];
         if (prevAsset != null && prevAsset != asset)
         {
-            log("Warning: name was already in use; disposing the previous " + type);
-            //TODO: disposeAsset(prevAsset);
+            trace("Warning: name was already in use; disposing the previous " + type);
+            disposeAsset(prevAsset);
         }
         
         store[name] = asset;
@@ -359,14 +391,10 @@ class AssetManager extends EventDispatcher
 		
         return "";
     }
-    
-    private function log(message : String) : Void
-    {
-        if (_verbose)
-        {
-            trace("[AssetManager]", message);
-        }
-    }
+	
+	private function disposeAsset(asset:Dynamic):Void {
+		if (Reflect.hasField(asset,"dispose")) Reflect.field(asset,"dispose")();
+	}
     
     private static function getDictionaryKeys(dictionary : Map<String,Dynamic>, prefix : String = "", out : Array<String> = null) : Array<String>
     {
@@ -457,4 +485,5 @@ class AssetPostProcessor
     {
         return _priority;
     }
+	
 }

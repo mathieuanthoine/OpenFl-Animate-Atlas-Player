@@ -113,11 +113,12 @@ class Symbol extends DisplayObjectContainer
         var frameData : Dynamic = getFrameData(layerIndex, _currentFrame);
         var elements : Array<Dynamic> = (frameData != null) ? frameData.elements : null;
         var numElements : Int = (elements != null) ? elements.length : 0;
+		var oldSymbol : Symbol;
         
         for (i in 0...numElements)
         {
             var elementData : Dynamic = elements[i].SYMBOL_Instance;
-            var oldSymbol : Symbol = (layer.numChildren > i) ? try cast(layer.getChildAt(i), Symbol) catch(e:Dynamic) null : null;
+            oldSymbol = (layer.numChildren > i) ? try cast(layer.getChildAt(i), Symbol) catch(e:Dynamic) null : null;
             var newSymbol : Symbol = null;
             var symbolName : String = elementData.SYMBOL_name;
             
@@ -170,13 +171,13 @@ class Symbol extends DisplayObjectContainer
         
 		//TODO: ?
 		
-        //var numObsoleteSymbols : Int = Std.int(layer.numChildren - numElements);
-        //
-        //for (i in 0...numObsoleteSymbols)
-        //{
-            //oldSymbol = cast(layer.removeChildAt(numElements), Symbol);
-            //_atlas.putSymbol(oldSymbol);
-        //}
+        var numObsoleteSymbols : Int = Std.int(layer.numChildren - numElements);
+        
+        for (i in 0...numObsoleteSymbols)
+        {
+            oldSymbol = cast(layer.removeChildAt(numElements), Symbol);
+            _atlas.putSymbol(oldSymbol);
+        }
     }
     
     private function createLayers() : Void

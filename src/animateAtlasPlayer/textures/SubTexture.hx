@@ -131,6 +131,7 @@ class SubTexture extends BitmapData
             _parent.dispose();
         }
         super.dispose();
+		
     }
 
     private function get_parent() : BitmapData
