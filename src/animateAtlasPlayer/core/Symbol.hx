@@ -1,5 +1,6 @@
 package animateAtlasPlayer.core;
 
+import animateAtlasPlayer.core.AnimationAtlas.Layer;
 import animateAtlasPlayer.utils.MathUtil;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -190,12 +191,20 @@ class Symbol extends DisplayObjectContainer
         _layers = new Sprite();
         addChild(_layers);
         
+		var maskedLayers:Map<Sprite,String> = new Map<Sprite, String>();
+		
         for (i in 0..._numLayers)
         {
             var layer : Sprite = new Sprite();
             layer.name = getLayerData(i).Layer_name;
+			
+			if (getLayerData(i).Clipped_by != null) {
+				maskedLayers[layer] = getLayerData(i).Clipped_by;
+			}
             _layers.addChild(layer);
         }
+		
+		for (maskedLayer in maskedLayers.keys()) maskedLayer.mask = _layers.getChildByName(maskedLayers[maskedLayer]);
     }
     
     public function setBitmap(data : Dynamic) : Void
@@ -450,7 +459,7 @@ class Symbol extends DisplayObjectContainer
     
     // data access
     
-    private function getLayerData(layerIndex : Int) : Dynamic
+    private function getLayerData(layerIndex : Int) : Layer
     {
         return _data.TIMELINE.LAYERS[layerIndex];
     }

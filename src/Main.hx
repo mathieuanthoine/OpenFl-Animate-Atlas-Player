@@ -12,7 +12,7 @@ class Main extends Sprite
 { 
 
 	public static inline var PUPPET:String = "ninja-girl";
-	public static inline var NUM:Int = 1;
+	public static inline var NUM:Int = 80;
 	
 	public function new() 
 	{

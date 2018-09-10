@@ -27,7 +27,6 @@ class Demo extends Sprite
 		
 		for (i in 0...Main.NUM) {
 		
-			//_ninja = Math.random()<0.5 ? assets.createAnimation("ninja-girl") : assets.createAnimation("FX_Boule_electricite");
 			_ninja = assets.createAnimation(Main.PUPPET);
 			_ninja.x = stage.stageWidth * (Main.NUM==1 ? 0.5 : Math.random());
 			_ninja.y = stage.stageHeight * (Main.NUM==1 ? 0.5 : Math.random());
@@ -38,15 +37,14 @@ class Demo extends Sprite
 			_ninja.scaleY = lScale;
 			addChild(_ninja);
 			lNinjas.push(_ninja);
-			_ninja.gotoFrame(Math.floor(_ninja.numFrames * Math.random()));
+			_ninja.gotoAndPlay(Math.floor(_ninja.totalFrames * Math.random()));
+			//_ninja.gotoAndPlay("attack");
 			
 		}
 		
 		lNinjas.sort(function (pA:Animation, pB:Animation):Int { return pA.y < pB.y ? -1 :1; });
 		
 		for (i in 0...lNinjas.length) addChild (lNinjas[i]);
-		
-		//TODO: Tilemap ???
 		
 	}
 	

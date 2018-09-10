@@ -7,12 +7,12 @@ class Animation extends DisplayObjectContainer
 {
     public var currentLabel(get, never) : String;
     public var currentFrame(get, set) : Int;
-    public var currentTime(get, set) : Float;
+    private var currentTime(get, set) : Float;
     public var frameRate(get, set) : Float;
     public var loop(get, set) : Bool;
-    public var numFrames(get, never) : Int;
+    public var totalFrames(get, never) : Int;
     public var isPlaying(get, never) : Bool;
-    public var totalTime(get, never) : Float;
+    private var totalTime(get, never) : Float;
 
     private var _symbol : Symbol;
     private var _behavior : MovieBehavior;
@@ -48,23 +48,38 @@ class Animation extends DisplayObjectContainer
         _behavior.play();
     }
     
-    public function pause() : Void
+    public function stop() : Void
     {
         _behavior.pause();
     }
+	
+	public function gotoAndPlay(frame:Dynamic, scene:String = null):Void {
+		gotoFrame(frame);
+		play();
+	}
+	
+	public function gotoAndStop(frame:Dynamic, scene:String = null):Void {
+		gotoFrame(frame);
+		stop();
+	}
+	
+	public function nextFrame():Void {
+		gotoFrame(currentFrame+1);
+		stop();
+	}
+	
+	public function prevFrame():Void {
+		gotoFrame(currentFrame-1);
+		stop();
+	}
     
-    public function stop() : Void
-    {
-        _behavior.stop();
-    }
-    
-    public function gotoFrame(indexOrLabel : Dynamic) : Void
+    private function gotoFrame(indexOrLabel : Dynamic) : Void
     {
         currentFrame = (Std.is(indexOrLabel, String)) ? 
         _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
     }
     
-    public function addFrameAction(indexOrLabel : Dynamic, action: Void->Void) : Void
+    public function addFrameScript(indexOrLabel : Dynamic, action: Void->Void) : Void
     {
         var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
         _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
@@ -72,7 +87,7 @@ class Animation extends DisplayObjectContainer
         _behavior.addFrameAction(frameIndex, action);
     }
     
-    public function removeFrameAction(indexOrLabel : Dynamic, action: Void->Void) : Void
+    public function removeFrameScript(indexOrLabel : Dynamic, action: Void->Void) : Void
     {
         var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
         _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
@@ -80,7 +95,7 @@ class Animation extends DisplayObjectContainer
         _behavior.removeFrameAction(frameIndex, action);
     }
     
-    public function removeFrameActions(indexOrLabel : Dynamic) : Void
+    public function removeFrameScripts(indexOrLabel : Dynamic) : Void
     {
         var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
         _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
@@ -93,7 +108,7 @@ class Animation extends DisplayObjectContainer
 		advanceTime(0.016);
 	}
 	
-    public function advanceTime(time:Float) : Void
+    private function advanceTime(time:Float) : Void
     {
 		
 		var frameRate : Float = _behavior.frameRate;
@@ -163,7 +178,7 @@ class Animation extends DisplayObjectContainer
         return value;
     }
     
-    private function get_numFrames() : Int
+    private function get_totalFrames() : Int
     {
         return _behavior.numFrames;
     }

@@ -14,6 +14,8 @@ typedef Frame = {
 
 typedef Layer = {
 	var Layer_name: String;
+	@:optional var Layer_type: String;
+	@:optional var Clipped_by: String;
 	var Frames: Array<Frame>;
 }
 
