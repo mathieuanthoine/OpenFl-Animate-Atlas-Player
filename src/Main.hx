@@ -2,8 +2,10 @@ package;
 
 import animateAtlasPlayer.assets.AssetManager;
 import com.kircode.debug.FPS_Mem;
+import openfl.Assets;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
-import openfl.Lib;
+import openfl.events.Event;
 
 /**
  * ...
@@ -19,9 +21,6 @@ class Main extends Sprite
 	{
 		super();
 		
-		// Assets:
-		// openfl.Assets.getBitmapData("img/assetname.jpg");
-		
 		var fps_mem:FPS_Mem = new FPS_Mem(10, 10, 0xFFFFFF);
 		
 		var lSprite:Sprite = new Sprite();
@@ -32,14 +31,11 @@ class Main extends Sprite
 		addChild(lSprite);
 		addChild(fps_mem);	
 		
+
 		var demo:Demo = new Demo();
 		addChildAt(demo,0);
         var assets:AssetManager = new AssetManager();
-		
-		//assets.enqueue("assets/ninja-girl");		
-		//assets.enqueue("assets/FX_Boule_electricite");		
-		assets.enqueue("assets/"+PUPPET);		
-		
+		assets.enqueue("assets/"+PUPPET);
 		assets.loadQueue(demo.start);
 	}
 
