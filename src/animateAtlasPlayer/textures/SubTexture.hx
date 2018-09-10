@@ -4,7 +4,6 @@ import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 import openfl.system.Capabilities;
-import openfl.utils.Assets;
 
 class SubTexture extends BitmapData
 {
