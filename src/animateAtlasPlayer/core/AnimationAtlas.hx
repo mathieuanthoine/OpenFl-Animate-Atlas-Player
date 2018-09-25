@@ -12,7 +12,7 @@ typedef Frame = {
 	var elements: Array<Dynamic>;
 }
 
-typedef Layer = {
+typedef LayerData = {
 	var Layer_name: String;
 	@:optional var Layer_type: String;
 	@:optional var Clipped_by: String;
@@ -20,13 +20,20 @@ typedef Layer = {
 }
 
 typedef Timeline = {
-	var LAYERS : Array<Layer>;
+	var LAYERS : Array<LayerData>;
 	@optional var sortedForRender:Bool;
 }
 
 typedef SymbolData = {
 	var SYMBOL_name: String;
+	@:optional var Instance_Name: String;
 	var TIMELINE: Timeline;
+	var Matrix3D:Dynamic;
+	var bitmap:Dynamic;
+	@:optional var color:Dynamic;
+	@:optional var loop:Dynamic;
+	var symbolType:String;
+	@:optional var firstFrame:Int;
 }
 
 typedef SymbolDictionnary = {
@@ -160,7 +167,7 @@ class AnimationAtlas
         var pool : Array<Dynamic> = getSymbolPool(name);
         if (pool.length == 0)
         {
-            return new Symbol(getSymbolData(name), this);
+			return new Symbol(getSymbolData(name), this);
         }
         else
         {
@@ -218,13 +225,13 @@ class AnimationAtlas
     private static function preprocessSymbolData(symbolData : SymbolData) : Dynamic
     {
         var timeLineData : Timeline = symbolData.TIMELINE;
-        var layerDates : Array<Layer> = timeLineData.LAYERS;
+        var layerDates : Array<LayerData> = timeLineData.LAYERS;
         
         // In Animate CC, layers are sorted front to back.
         // In animateAtlasPlayer, it's the other way round - so we simply reverse the layer data.
        // TODO: voir s'il faut faire comme animateAtlasPlayer 	
 		
-        if (timeLineData.sortedForRender==null)
+        if (!Reflect.hasField(timeLineData,"sortedForRender"))
         {
             timeLineData.sortedForRender = true;
             layerDates.reverse();
@@ -237,7 +244,7 @@ class AnimationAtlas
         
         for (l in 0...numLayers)
         {
-            var layerData : Layer = layerDates[l];
+            var layerData : LayerData = layerDates[l];
             var frames : Array<Frame> = cast layerData.Frames;
             var numFrames : Int = frames.length;
             
@@ -283,7 +290,7 @@ class AnimationAtlas
         return _symbolData[name];
     }
     
-    private function getSymbolPool(name : String) : Array<Dynamic>
+    public function getSymbolPool(name : String) : Array<Dynamic>
     {
         var pool : Array<Dynamic> = Reflect.field(_symbolPool, name);
         if (pool == null)

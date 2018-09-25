@@ -1,9 +1,11 @@
 package animateAtlasPlayer.core;
 
-import animateAtlasPlayer.core.AnimationAtlas.Layer;
+import animateAtlasPlayer.core.AnimationAtlas.LayerData;
+import animateAtlasPlayer.core.AnimationAtlas.SymbolData;
 import animateAtlasPlayer.utils.MathUtil;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
+import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
 import openfl.display.FrameLabel;
 import openfl.display.Sprite;
@@ -23,7 +25,7 @@ class Symbol extends DisplayObjectContainer
 
     public static inline var BITMAP_SYMBOL_NAME : String = "___atlas_sprite___";
     
-    private var _data : Dynamic;
+    private var _data : SymbolData;
     private var _atlas : AnimationAtlas;
     private var _symbolName : String;
     private var _type : String;
@@ -39,9 +41,9 @@ class Symbol extends DisplayObjectContainer
     private static var sMatrix : Matrix = new Matrix();
     
     @:allow(animateAtlasPlayer.core)
-    private function new(data : Dynamic, atlas : AnimationAtlas)
+    private function new(data : SymbolData, atlas : AnimationAtlas)
     {
-        super();
+		super();
         _data = data;
         _atlas = atlas;
         _composedFrame = -1;
@@ -52,7 +54,7 @@ class Symbol extends DisplayObjectContainer
         _type = SymbolType.GRAPHIC;
         _loopMode = LoopMode.LOOP;
         
-        createLayers();
+        //createLayers();
     }
     
     public function reset() : Void
@@ -102,7 +104,7 @@ class Symbol extends DisplayObjectContainer
     {
         for (i in 0..._numLayers)
         {
-            updateLayer(i);
+			updateLayer(i);
         }
         
         _composedFrame = _currentFrame;
@@ -110,7 +112,8 @@ class Symbol extends DisplayObjectContainer
     
     private function updateLayer(layerIndex : Int) : Void
     {
-        var layer : Sprite = getLayer(layerIndex);
+        var layer : Layer = getLayer(layerIndex);
+		
         var frameData : Dynamic = getFrameData(layerIndex, _currentFrame);
         var elements : Array<Dynamic> = (frameData != null) ? frameData.elements : null;
         var numElements : Int = (elements != null) ? elements.length : 0;
@@ -118,35 +121,44 @@ class Symbol extends DisplayObjectContainer
         
         for (i in 0...numElements)
         {
-            var elementData : Dynamic = elements[i].SYMBOL_Instance;
+            var elementData : SymbolData = elements[i].SYMBOL_Instance;
             oldSymbol = (layer.numChildren > i) ? try cast(layer.getChildAt(i), Symbol) catch(e:Dynamic) null : null;
             var newSymbol : Symbol = null;
-            var symbolName : String = elementData.SYMBOL_name;
-            
-            if (!_atlas.hasSymbol(symbolName))
+            var lSymbolName : String = elementData.SYMBOL_name;
+			
+            if (!_atlas.hasSymbol(lSymbolName))
             {
-                symbolName = BITMAP_SYMBOL_NAME;
+				lSymbolName = BITMAP_SYMBOL_NAME;
             }
-            
-            if (oldSymbol != null && oldSymbol._symbolName == symbolName)
+			
+			if (oldSymbol != null && oldSymbol.symbolName == lSymbolName)
             {
-                newSymbol = oldSymbol;
+				newSymbol = oldSymbol;
             }
             else
             {
+				
                 if (oldSymbol != null)
                 {
-                    oldSymbol.removeFromParent();
-                    _atlas.putSymbol(oldSymbol);
+					oldSymbol.removeFromParent();
+					_atlas.putSymbol(oldSymbol);
                 }
-                
-                newSymbol = _atlas.getSymbol(symbolName);
-                layer.addChildAt(newSymbol, i);
+				
+				newSymbol = _atlas.getSymbol(lSymbolName);
+				layer.addChildAt(newSymbol, i);
+				newSymbol.createLayers();
+
             }
             
-            newSymbol.setTransformationMatrix(elementData.Matrix3D);
-            newSymbol.setBitmap(elementData.bitmap);
-            newSymbol.setColor(elementData.color);
+            newSymbol.setTransformationMatrix(elementData.Matrix3D);	
+			
+			if (layer.name.indexOf(Animation.ITEM_PREFIX) != 0) newSymbol.setBitmap(elementData.bitmap);
+			else {
+				var lAnim:Animation = getAnimation(layer);
+				if (lAnim!=null) newSymbol.setItem(lAnim.getItem(layer.name));
+			}
+			
+			newSymbol.setColor(elementData.color);
             newSymbol.setLoop(elementData.loop);
             newSymbol.setType(elementData.symbolType);
             
@@ -176,16 +188,28 @@ class Symbol extends DisplayObjectContainer
         
         for (i in 0...numObsoleteSymbols)
         {
-            oldSymbol = cast(layer.removeChildAt(numElements), Symbol);
-            _atlas.putSymbol(oldSymbol);
+			oldSymbol = cast layer.removeChildAt(numElements);
+			_atlas.putSymbol(oldSymbol);
         }
     }
+	
+	private static function getAnimation (pSymbol:DisplayObjectContainer) :Animation {
+		if (pSymbol == null) return null;
+		if (Std.is(pSymbol, Animation)) return cast(pSymbol, Animation);
+		else return getAnimation(pSymbol.parent);
+	}
+	
+	public function setItem(pItem: DisplayObject=null): Void {
+		while (numChildren > 0) removeChildAt(0);			
+		if (pItem != null) addChild(pItem);
+	}
     
-    private function createLayers() : Void
+    public function createLayers() : Void
     {
         if (_layers != null)
         {
-            throw new Error("Method must only be called once");
+            return;
+			throw new Error("Method must only be called once");
         }
         
         _layers = new Sprite();
@@ -195,7 +219,7 @@ class Symbol extends DisplayObjectContainer
 		
         for (i in 0..._numLayers)
         {
-            var layer : Sprite = new Sprite();
+            var layer : Layer = new Layer();
             layer.name = getLayerData(i).Layer_name;
 			
 			if (getLayerData(i).Clipped_by != null) {
@@ -206,7 +230,7 @@ class Symbol extends DisplayObjectContainer
 		
 		for (maskedLayer in maskedLayers.keys()) maskedLayer.mask = _layers.getChildByName(maskedLayers[maskedLayer]);
     }
-    
+	
     public function setBitmap(data : Dynamic) : Void
     {
 		if (data != null)
@@ -223,8 +247,6 @@ class Symbol extends DisplayObjectContainer
             {
 				_bitmap = _atlas.getImage(texture);
                 addChild(_bitmap);
-				
-				addChild(_bitmap);
             }
             
             _bitmap.x = data.Position.x;
@@ -325,7 +347,7 @@ class Symbol extends DisplayObjectContainer
         return labels;
     }
     
-    private function getLayer(layerIndex : Int) : Sprite
+    private function getLayer(layerIndex : Int) : Layer
     {
         return cast _layers.getChildAt(layerIndex);
     }
@@ -459,7 +481,7 @@ class Symbol extends DisplayObjectContainer
     
     // data access
     
-    private function getLayerData(layerIndex : Int) : Layer
+    private function getLayerData(layerIndex : Int) : LayerData
     {
         return _data.TIMELINE.LAYERS[layerIndex];
     }

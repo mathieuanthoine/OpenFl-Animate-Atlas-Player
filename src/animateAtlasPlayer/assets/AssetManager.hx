@@ -97,7 +97,7 @@ class AssetManager extends EventDispatcher
 	{
 		if (getExtensionFromUrl(url) == "zip")
 		{
-			trace ("TODO: zip files");
+			trace ("TODO: zip package");
 		}
 		else {
 			enqueueSingle(url + "/spritemap.png");
@@ -225,7 +225,9 @@ class AssetManager extends EventDispatcher
 			}
 		}
 
-		sNames=[];
+		sNames = [];
+		animation.name = name;
+		
 		return animation;
 	}
 
