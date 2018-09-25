@@ -11,8 +11,8 @@ import openfl.display.Sprite;
 class Main extends Sprite 
 { 
 
-	public static inline var PUPPET:String = "ninja-girl";
-	public static inline var NUM:Int = 80;
+	public static inline var PUPPET:String = "Astronaut";
+	public static inline var NUM:Int = 20;
 	
 	public function new() 
 	{
@@ -27,7 +27,6 @@ class Main extends Sprite
 		
 		addChild(lSprite);
 		addChild(fps_mem);
-		
 
 		var demo:Demo = new Demo();
 		addChildAt(demo,0);

@@ -1,6 +1,9 @@
 package animateAtlasPlayer.core;
 
+import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
+import openfl.display.Sprite;
+import openfl.errors.Error;
 import openfl.events.Event;
 
 class Animation extends DisplayObjectContainer
@@ -17,13 +20,18 @@ class Animation extends DisplayObjectContainer
     private var _symbol : Symbol;
     private var _behavior : MovieBehavior;
     private var _cumulatedTime : Float = 0.0;
+	
+	private var items:Map<String,DisplayObject> = new Map<String,DisplayObject>();
+	
+	public static inline var ITEM_PREFIX:String = "*";
     
     public function new(data : Dynamic, atlas : AnimationAtlas)
     {
         super();
         _symbol = new Symbol(data, atlas);
+		addChild(_symbol);
+		_symbol.createLayers();
         _symbol.update();
-        addChild(_symbol);
         
         _behavior = new MovieBehavior(this, onFrameChanged, atlas.frameRate);
         _behavior.numFrames = _symbol.numFrames;
@@ -77,30 +85,6 @@ class Animation extends DisplayObjectContainer
     {
         currentFrame = (Std.is(indexOrLabel, String)) ? 
         _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
-    }
-    
-    public function addFrameScript(indexOrLabel : Dynamic, action: Void->Void) : Void
-    {
-        var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
-        _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
-        
-        _behavior.addFrameAction(frameIndex, action);
-    }
-    
-    public function removeFrameScript(indexOrLabel : Dynamic, action: Void->Void) : Void
-    {
-        var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
-        _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
-        
-        _behavior.removeFrameAction(frameIndex, action);
-    }
-    
-    public function removeFrameScripts(indexOrLabel : Dynamic) : Void
-    {
-        var frameIndex : Int = (Std.is(indexOrLabel, String)) ? 
-        _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
-        
-        _behavior.removeFrameActions(frameIndex);
     }
     
 	private function onEnterFrame (pEvent:Event):Void {
@@ -190,5 +174,37 @@ class Animation extends DisplayObjectContainer
     {
         return _behavior.totalTime;
     }
+	
+	public function addItem(swapName:String, pItem:DisplayObject = null):Void {
+		if (swapName.indexOf(ITEM_PREFIX) != 0) throw new Error("Item prefix (" + ITEM_PREFIX + ") missing."); 
+		if (pItem == null) items[swapName] =  new Sprite();
+		else items[swapName] = pItem;
+		setItem(swapName, this , items[swapName]);
+	}
+	
+	//TODO !!!!
+	public function removeItem(swapName:String):Void {
+		addItem(swapName);
+	}
+	
+	public function getItem (name:String):DisplayObject {
+		if (items[name] == null) items[name] = new Sprite();
+		return items[name];
+	}
+	
+	private function setItem (itemName:String,symbol:DisplayObjectContainer,item:DisplayObject=null): Void {
+		
+		var child:DisplayObjectContainer;
+		for (i in 0...symbol.numChildren) {
+			if (!Std.is(symbol.getChildAt(i), DisplayObjectContainer)) continue;
+			child = cast(symbol.getChildAt(i), DisplayObjectContainer);
+			if (child.name.indexOf(itemName)==0 && child.numChildren>0) cast(child.getChildAt(0), Symbol).setItem(item);
+			else setItem (itemName, cast(child,DisplayObjectContainer), item);
+		}
+		
+	}
+	
+
+
 }
 
