@@ -4,8 +4,8 @@
   "tags": ["OpenFl","haxe","extern","Animate","Atlas"],
   "description": "OpenFl Player for Adobe Animate Atlas format",
   "contributors": ["mathieu_anthoine","mathieuanthoine"],
-  "releasenote": "Release of version 1.",
-  "version": "1.0.0",
+  "releasenote": "Release of version 1.4.1",
+  "version": "1.4.1",
   "url": "https://github.com/mathieuanthoine/OpenFl-Animate-Atlas-Player",
   "classPath": "src",
   "dependencies": {
