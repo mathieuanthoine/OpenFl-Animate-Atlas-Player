@@ -1,0 +1,690 @@
+{
+    "ANIMATION": {
+        "name": "Test",
+        "SYMBOL_name": "_Atlas_0",
+        "TIMELINE": {
+            "LAYERS": [
+                {
+                    "Layer_name": "Layer_1",
+                    "Frames": [
+                        {
+                            "index": 0,
+                            "duration": 1,
+                            "elements": [
+                                {
+                                    "SYMBOL_Instance": {
+                                        "SYMBOL_name": "Test",
+                                        "Instance_Name": "",
+                                        "symbolType": "movieclip",
+                                        "transformationPoint": {
+                                            "x": 0,
+                                            "y": 0
+                                        },
+                                        "Matrix3D": {
+                                            "m00": 1,
+                                            "m01": 0,
+                                            "m02": 0,
+                                            "m03": 0,
+                                            "m10": 0,
+                                            "m11": 1,
+                                            "m12": 0,
+                                            "m13": 0,
+                                            "m20": 0,
+                                            "m21": 0,
+                                            "m22": 1,
+                                            "m23": 0,
+                                            "m30": -63.15,
+                                            "m31": 0,
+                                            "m32": 0,
+                                            "m33": 1
+                                        },
+                                        "DecomposedMatrix": {
+                                            "Position": {
+                                                "x": -63.15,
+                                                "y": 0,
+                                                "z": 0
+                                            },
+                                            "Rotation": {
+                                                "x": 0,
+                                                "y": -0,
+                                                "z": 0
+                                            },
+                                            "Scaling": {
+                                                "x": 1,
+                                                "y": 1,
+                                                "z": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "SYMBOL_Instance": {
+                                        "SYMBOL_name": "star0",
+                                        "Instance_Name": "",
+                                        "symbolType": "movieclip",
+                                        "transformationPoint": {
+                                            "x": 0,
+                                            "y": 0
+                                        },
+                                        "Matrix3D": {
+                                            "m00": 1,
+                                            "m01": 0,
+                                            "m02": 0,
+                                            "m03": 0,
+                                            "m10": 0,
+                                            "m11": 1,
+                                            "m12": 0,
+                                            "m13": 0,
+                                            "m20": 0,
+                                            "m21": 0,
+                                            "m22": 1,
+                                            "m23": 0,
+                                            "m30": 78.8,
+                                            "m31": 4.45,
+                                            "m32": 0,
+                                            "m33": 1
+                                        },
+                                        "DecomposedMatrix": {
+                                            "Position": {
+                                                "x": 78.8,
+                                                "y": 4.45,
+                                                "z": 0
+                                            },
+                                            "Rotation": {
+                                                "x": 0,
+                                                "y": -0,
+                                                "z": 0
+                                            },
+                                            "Scaling": {
+                                                "x": 1,
+                                                "y": 1,
+                                                "z": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "SYMBOL_Instance": {
+                                        "SYMBOL_name": "star1",
+                                        "Instance_Name": "",
+                                        "symbolType": "movieclip",
+                                        "transformationPoint": {
+                                            "x": 0,
+                                            "y": 0
+                                        },
+                                        "Matrix3D": {
+                                            "m00": 1,
+                                            "m01": 0,
+                                            "m02": 0,
+                                            "m03": 0,
+                                            "m10": 0,
+                                            "m11": 1,
+                                            "m12": 0,
+                                            "m13": 0,
+                                            "m20": 0,
+                                            "m21": 0,
+                                            "m22": 1,
+                                            "m23": 0,
+                                            "m30": 155.05,
+                                            "m31": 7.05,
+                                            "m32": 0,
+                                            "m33": 1
+                                        },
+                                        "DecomposedMatrix": {
+                                            "Position": {
+                                                "x": 155.05,
+                                                "y": 7.05,
+                                                "z": 0
+                                            },
+                                            "Rotation": {
+                                                "x": 0,
+                                                "y": -0,
+                                                "z": 0
+                                            },
+                                            "Scaling": {
+                                                "x": 1,
+                                                "y": 1,
+                                                "z": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "SYMBOL_DICTIONARY": {
+        "Symbols": [
+            {
+                "SYMBOL_name": "Test",
+                "TIMELINE": {
+                    "LAYERS": [
+                        {
+                            "Layer_name": "graph",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "SYMBOL_Instance": {
+                                                "SYMBOL_name": "graph",
+                                                "Instance_Name": "InstName",
+                                                "symbolType": "graphic",
+                                                "firstFrame": 4,
+                                                "loop": "singleframe",
+                                                "transformationPoint": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "Matrix3D": {
+                                                    "m00": 1,
+                                                    "m01": 0,
+                                                    "m02": 0,
+                                                    "m03": 0,
+                                                    "m10": 0,
+                                                    "m11": 1,
+                                                    "m12": 0,
+                                                    "m13": 0,
+                                                    "m20": 0,
+                                                    "m21": 0,
+                                                    "m22": 1,
+                                                    "m23": 0,
+                                                    "m30": 24.5,
+                                                    "m31": 27.5,
+                                                    "m32": 0,
+                                                    "m33": 1
+                                                },
+                                                "DecomposedMatrix": {
+                                                    "Position": {
+                                                        "x": 24.5,
+                                                        "y": 27.5,
+                                                        "z": 0
+                                                    },
+                                                    "Rotation": {
+                                                        "x": 0,
+                                                        "y": -0,
+                                                        "z": 0
+                                                    },
+                                                    "Scaling": {
+                                                        "x": 1,
+                                                        "y": 1,
+                                                        "z": 1
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "SYMBOL_Instance": {
+                                                "SYMBOL_name": "graph",
+                                                "Instance_Name": "InstName",
+                                                "symbolType": "graphic",
+                                                "firstFrame": 4,
+                                                "loop": "singleframe",
+                                                "transformationPoint": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "Matrix3D": {
+                                                    "m00": 1,
+                                                    "m01": 0,
+                                                    "m02": 0,
+                                                    "m03": 0,
+                                                    "m10": 0,
+                                                    "m11": 1,
+                                                    "m12": 0,
+                                                    "m13": 0,
+                                                    "m20": 0,
+                                                    "m21": 0,
+                                                    "m22": 1,
+                                                    "m23": 0,
+                                                    "m30": 24.5,
+                                                    "m31": 27.5,
+                                                    "m32": 0,
+                                                    "m33": 1
+                                                },
+                                                "DecomposedMatrix": {
+                                                    "Position": {
+                                                        "x": 24.5,
+                                                        "y": 27.5,
+                                                        "z": 0
+                                                    },
+                                                    "Rotation": {
+                                                        "x": 0,
+                                                        "y": -0,
+                                                        "z": 0
+                                                    },
+                                                    "Scaling": {
+                                                        "x": 1,
+                                                        "y": 1,
+                                                        "z": 1
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Layer_name": "mc",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "SYMBOL_Instance": {
+                                                "SYMBOL_name": "mc",
+                                                "Instance_Name": "",
+                                                "bitmap": {
+                                                    "name": "0000",
+                                                    "Position": {
+                                                        "x": -20.5,
+                                                        "y": -20.5
+                                                    }
+                                                },
+                                                "symbolType": "movieclip",
+                                                "transformationPoint": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "Matrix3D": {
+                                                    "m00": 1,
+                                                    "m01": 0,
+                                                    "m02": 0,
+                                                    "m03": 0,
+                                                    "m10": 0,
+                                                    "m11": 1,
+                                                    "m12": 0,
+                                                    "m13": 0,
+                                                    "m20": 0,
+                                                    "m21": 0,
+                                                    "m22": 1,
+                                                    "m23": 0,
+                                                    "m30": 11,
+                                                    "m31": -20,
+                                                    "m32": 0,
+                                                    "m33": 1
+                                                },
+                                                "DecomposedMatrix": {
+                                                    "Position": {
+                                                        "x": 11,
+                                                        "y": -20,
+                                                        "z": 0
+                                                    },
+                                                    "Rotation": {
+                                                        "x": 0,
+                                                        "y": -0,
+                                                        "z": 0
+                                                    },
+                                                    "Scaling": {
+                                                        "x": 1,
+                                                        "y": 1,
+                                                        "z": 1
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "SYMBOL_Instance": {
+                                                "SYMBOL_name": "mc",
+                                                "Instance_Name": "",
+                                                "bitmap": {
+                                                    "name": "0000",
+                                                    "Position": {
+                                                        "x": -20.5,
+                                                        "y": -20.5
+                                                    }
+                                                },
+                                                "symbolType": "movieclip",
+                                                "transformationPoint": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "Matrix3D": {
+                                                    "m00": 1,
+                                                    "m01": 0,
+                                                    "m02": 0,
+                                                    "m03": 0,
+                                                    "m10": 0,
+                                                    "m11": 1,
+                                                    "m12": 0,
+                                                    "m13": 0,
+                                                    "m20": 0,
+                                                    "m21": 0,
+                                                    "m22": 1,
+                                                    "m23": 0,
+                                                    "m30": 11,
+                                                    "m31": -20,
+                                                    "m32": 0,
+                                                    "m33": 1
+                                                },
+                                                "DecomposedMatrix": {
+                                                    "Position": {
+                                                        "x": 11,
+                                                        "y": -20,
+                                                        "z": 0
+                                                    },
+                                                    "Rotation": {
+                                                        "x": 0,
+                                                        "y": -0,
+                                                        "z": 0
+                                                    },
+                                                    "Scaling": {
+                                                        "x": 1,
+                                                        "y": 1,
+                                                        "z": 1
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Layer_name": "shape",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0001",
+                                                "Position": {
+                                                    "x": -48.5,
+                                                    "y": -51.5
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0001",
+                                                "Position": {
+                                                    "x": -48.5,
+                                                    "y": -51.5
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "SYMBOL_name": "graph",
+                "TIMELINE": {
+                    "LAYERS": [
+                        {
+                            "Layer_name": "in",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0002",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0002",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 2,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0002",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 3,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0002",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 4,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 5,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 6,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 7,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 8,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 9,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0003",
+                                                "Position": {
+                                                    "x": -24,
+                                                    "y": -24
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "SYMBOL_name": "star0",
+                "TIMELINE": {
+                    "LAYERS": [
+                        {
+                            "Layer_name": "Layer_1",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0004",
+                                                "Position": {
+                                                    "x": -32.9,
+                                                    "y": -34.55
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0004",
+                                                "Position": {
+                                                    "x": -32.9,
+                                                    "y": -34.55
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "SYMBOL_name": "star1",
+                "TIMELINE": {
+                    "LAYERS": [
+                        {
+                            "Layer_name": "Layer_1",
+                            "Frames": [
+                                {
+                                    "index": 0,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0005",
+                                                "Position": {
+                                                    "x": -32.9,
+                                                    "y": -34.55
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "index": 1,
+                                    "duration": 1,
+                                    "elements": [
+                                        {
+                                            "ATLAS_SPRITE_instance": {
+                                                "name": "0005",
+                                                "Position": {
+                                                    "x": -32.9,
+                                                    "y": -34.55
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "metadata": {
+        "framerate": 24
+    }
+}
