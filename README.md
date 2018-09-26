@@ -9,11 +9,12 @@ Usage
 Loads an atlas
 -------------- 
 
-	public function new() {}
-        var assets:AssetManager = new AssetManager();
-		assets.enqueue("assets/MyAtlas"); // target the folder that contains the Animation.json, spritemap.json and spritemap.png
-		assets.loadQueue(start);
-	}
+		public function new() {}
+			var assets:AssetManager = new AssetManager();
+			// target the folder that contains the Animation.json, spritemap.json and spritemap.png
+			assets.enqueue("assets/MyAtlas"); 
+			assets.loadQueue(start);
+		}
 	
 * you can replace Animation.json by a zip version : Animation.zip
 * the Atlas folder needs to be in an assets folder that is embed with the project (loaded resources in the next version)
@@ -24,11 +25,11 @@ Loads an atlas
 Launch an animation
 -------------------
 	
-	private function start(assetsMgr:AssetManager):Void {
-	
-		var myAnimation:Animation = assetsMgr.createAnimation("player_run");
-		addChild(myAnimation);
-	}
+		private function start(assetsMgr:AssetManager):Void {
+		
+			var myAnimation:Animation = assetsMgr.createAnimation("player_run");
+			addChild(myAnimation);
+		}
 
 * The name of the animation (player_run) is the name of the MovieClip Atlas or its children	
 * classic MovieClip methods are availables (play, stop, gotoAndPlay, gotoAndStop, nextFrame...) and properties (currentFrame, totalFrames...)
@@ -37,16 +38,16 @@ Dynamic change in an animation
 ------------------------------
 You can dynamically attach an element in the animation, like swaping a weapon in the hand of the player with an other.
 * The MovieClip that will contains the new asset has to be in a layer prefixed by an asterisk.
-<img src="imgs/layer.png">
+<img src="https://github.com/mathieuanthoine/OpenFl-Animate-Atlas-Player/tree/dev/imgs/layer.png">
 
 * You can have several layers with the same name in differents MovieClips of the Animation and or on different layers.
 
-	var anItem:AnItem = new AnItem(); // Can be any DisplayObject including Animations
-	myAnimation.addItem("*aTag",anItem);
+		var anItem:AnItem = new AnItem(); // Can be any DisplayObject including Animations
+		myAnimation.addItem("*aTag",anItem);
 	
 * You can remove the attached item
 
-	myAnimation.removeItem("*aTag");
+		myAnimation.removeItem("*aTag");
 
 Version 1.4
 ===========
