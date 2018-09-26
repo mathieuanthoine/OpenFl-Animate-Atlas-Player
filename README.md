@@ -38,7 +38,7 @@ Dynamic change in an animation
 ------------------------------
 You can dynamically attach an element in the animation, like swaping a weapon in the hand of the player with an other.
 * The MovieClip that will contains the new asset has to be in a layer prefixed by an asterisk.
-<img src="https://github.com/mathieuanthoine/OpenFl-Animate-Atlas-Player/tree/dev/imgs/layer.png">
+<img src="https://github.com/mathieuanthoine/OpenFl-Animate-Atlas-Player/blob/dev/imgs/layer.PNG">
 
 * You can have several layers with the same name in differents MovieClips of the Animation and or on different layers.
 
