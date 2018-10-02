@@ -124,11 +124,11 @@ class Animation extends DisplayObjectContainer
     
     private function get_currentFrame() : Int
     {
-        return _behavior.currentFrame;
+        return _behavior.currentFrame+1;
     }
     private function set_currentFrame(value : Int) : Int
     {
-        _behavior.currentFrame = value;
+        _behavior.currentFrame = value-1;
         return value;
     }
     
@@ -182,7 +182,6 @@ class Animation extends DisplayObjectContainer
 		setItem(swapName, this , items[swapName]);
 	}
 	
-	//TODO !!!!
 	public function removeItem(swapName:String):Void {
 		addItem(swapName);
 	}
