@@ -63,6 +63,7 @@ History
 Version 1.5
 -----------
 * Support for animation in asset folder embed or not
+
 Version 1.4
 -----------
 * Bugs Fix
