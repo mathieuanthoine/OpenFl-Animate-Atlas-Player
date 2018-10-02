@@ -14,7 +14,7 @@
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
-	<assets path="assets" embed="true" />
+	<assets path="assets" embed="false" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

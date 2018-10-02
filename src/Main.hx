@@ -14,7 +14,7 @@ class Main extends Sprite
 { 
 
 	public static inline var PUPPET:String = "Astronaut";
-	public static inline var NUM:Int = 20;
+	public static inline var NUM:Int = 10;
 	
 	private var myAnimation:Animation;
 	private var assetsMgr:AssetManager;

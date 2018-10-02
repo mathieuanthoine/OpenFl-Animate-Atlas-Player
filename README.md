@@ -49,19 +49,24 @@ You can dynamically attach an element in the animation, like swaping a weapon in
 
 		myAnimation.removeItem("*aTag");
 
-Version 1.4
+Version 1.6
 ===========
-* Bugs Fix
-* Support for dynamic changes in assets added to an Animation
+* value of currentFrame similar to Animate (1 to totalFrames)
 	
 TODO List
 ---------
-* Add support for Animation files not embed
 * Clean Code
 * Implements disabled parts of code
 
 History
 ========
+Version 1.5
+-----------
+* Support for animation in asset folder embed or not
+Version 1.4
+-----------
+* Bugs Fix
+* Support for dynamic changes in assets added to an Animation
 
 Version 1.3
 -----------
