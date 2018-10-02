@@ -65,7 +65,7 @@ class Main extends Sprite
 				myAnimation.y = GRID * (1+Math.floor(Math.random()*(stage.stageHeight/GRID-1)));
 			}
 			
-			var lScale:Float = 0.75 + 0.25 * Math.random();
+			var lScale:Float = 0.25 + 0.25 * Math.random();
 			myAnimation.scaleX = lScale*(Math.random()>0.5 ? -1 :1);
 			myAnimation.scaleY = lScale;
 			addChild(myAnimation);

@@ -106,28 +106,14 @@ class AssetManager extends EventDispatcher
 			else enqueueSingle(url+"/Animation.json");
 		}
 	}
-
+	
 	private function enqueueSingle(url : String, name : String = null/*, options : TextureOptions = null*/) : String
 	{
 
-		var asset;
 		var extension:String = getExtensionFromUrl(url);
-		if (extension == "zip") {
-			var entries:List<Entry> = Reader.readZip(new BytesInput(Assets.getBytes(url)));
-			var bad:ByteArrayData = new ByteArrayData();
-			var entry:Entry = entries.first();
-			if (entry.compressed) {
-				bad = new ByteArrayData();
-				bad.writeBytes(entry.data);
-				bad.inflate();
-				asset = Json.parse(bad.toString());
-			} else asset = Json.parse(entry.data.toString());
-		}
-		else if (extension == "json")  asset=Json.parse(Assets.getText(url))
-		else asset=Assets.getBitmapData(url);
-
-		var assetReference : AssetReference = new AssetReference(asset);
-		assetReference.extension = extension=="zip" ? "json" : extension;
+		var assetReference : AssetReference = new AssetReference();
+		assetReference.extension = extension == "zip" ? "json" : extension;
+		assetReference.url=url;
 		if (name != null) assetReference.name = name;
 		else {
 			assetReference.name =  getNameFromUrl(url);
@@ -137,12 +123,61 @@ class AssetManager extends EventDispatcher
 		// assetReference.textureOptions = options || _textureOptions;
 
 		_queue.push(assetReference);
-		trace("Enqueuing '" + assetReference.filename + "'");
+		trace("Enqueuing '" + assetReference.filename);
 		return assetReference.name;
 	}
 
-	public function loadQueue(onComplete : Dynamic, onError : Dynamic = null, onProgress : Dynamic = null) : Void
+	private var index:Int;
+	private var callBack:AssetManager->Void;
+
+	public function loadQueue(onComplete : AssetManager->Void, onError : Dynamic = null, onProgress : Dynamic = null) : Void
 	{
+		callBack = onComplete;
+		index = 0;
+		loadSingle();
+
+	}
+	
+		
+	private function loadSingle() : Void
+	{
+		if (index >= _queue.length) onLoadComplete();
+		else{
+			var assetReference : AssetReference = _queue[index]; 
+			if (assetReference.extension == "zip") Assets.loadBytes(assetReference.url).onComplete(onSingleComplete);
+			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete);
+			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete);
+		};
+	}
+	
+	private function onSingleComplete (pData:Dynamic) :Void 
+	{
+		var data;
+		if (Std.is(pData, ByteArray)) {
+			var entries:List<Entry> = Reader.readZip(new BytesInput(pData));
+			var bad:ByteArrayData = new ByteArrayData();
+			var entry:Entry = entries.first();
+			if (entry.compressed) {
+				bad = new ByteArrayData();
+				bad.writeBytes(entry.data);
+				bad.inflate();
+				data = Json.parse(bad.toString());
+			} else data = Json.parse(entry.data.toString());
+		}
+		else if (Std.is(pData, String))  data = Json.parse(pData);
+		else data=pData;
+
+		var assetReference : AssetReference = _queue[index];
+		assetReference.data = data;
+
+		trace("'" + assetReference.filename + " loaded'");
+		
+		index++;
+		loadSingle();
+
+	}
+	
+	private function onLoadComplete ():Void {
 		var asset:AssetReference;
 		for (i in 0..._queue.length)
 		{
@@ -160,10 +195,13 @@ class AssetManager extends EventDispatcher
 		}
 
 		_queue = [];
+		index = 0;
 
-		onComplete(this);
+		callBack(this);
 
 	}
+	
+	
 
 	private function getFactoryFor(asset : AssetReference) : AssetFactory
 	{

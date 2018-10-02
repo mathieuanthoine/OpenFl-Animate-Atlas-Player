@@ -17,7 +17,7 @@ class AssetReference
     private var _mimeType : String;
     private var _extension : String;
 
-    public function new(data : Dynamic)
+    public function new(data : Dynamic=null)
     {
         _data = data;
         //_textureOptions = new TextureOptions();
