@@ -6,9 +6,11 @@ import animateAtlasPlayer.core.AnimationAtlasFactory;
 import animateAtlasPlayer.textures.TextureAtlas;
 import animateAtlasPlayer.utils.ArrayUtil;
 import haxe.Json;
+import haxe.io.Bytes;
 import haxe.io.BytesInput;
 import haxe.zip.Entry;
 import haxe.zip.Reader;
+import lime.app.Future;
 import openfl.Assets;
 import openfl.display.BitmapData;
 import openfl.events.Event;
@@ -103,17 +105,16 @@ class AssetManager extends EventDispatcher
 			enqueueSingle(url + "/spritemap.png");
 			enqueueSingle(url+"/spritemap.json");
 			if (Assets.exists(url + "/Animation.zip")) enqueueSingle(url+"/Animation.zip");
-			else enqueueSingle(url+"/Animation.json");
+			else enqueueSingle(url + "/Animation.json");	
 		}
 	}
 	
 	private function enqueueSingle(url : String, name : String = null/*, options : TextureOptions = null*/) : String
 	{
-
 		var extension:String = getExtensionFromUrl(url);
 		var assetReference : AssetReference = new AssetReference();
-		assetReference.extension = extension == "zip" ? "json" : extension;
-		assetReference.url=url;
+		assetReference.url = url;
+		assetReference.extension = extension;
 		if (name != null) assetReference.name = name;
 		else {
 			assetReference.name =  getNameFromUrl(url);
@@ -144,7 +145,9 @@ class AssetManager extends EventDispatcher
 		if (index >= _queue.length) onLoadComplete();
 		else{
 			var assetReference : AssetReference = _queue[index]; 
-			if (assetReference.extension == "zip") Assets.loadBytes(assetReference.url).onComplete(onSingleComplete);
+			if (assetReference.extension == "zip") {
+				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete);
+			}
 			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete);
 			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete);
 		};
@@ -153,7 +156,7 @@ class AssetManager extends EventDispatcher
 	private function onSingleComplete (pData:Dynamic) :Void 
 	{
 		var data;
-		if (Std.is(pData, ByteArray)) {
+		if (Std.is(pData, ByteArrayData)) {
 			var entries:List<Entry> = Reader.readZip(new BytesInput(pData));
 			var bad:ByteArrayData = new ByteArrayData();
 			var entry:Entry = entries.first();
@@ -169,6 +172,7 @@ class AssetManager extends EventDispatcher
 
 		var assetReference : AssetReference = _queue[index];
 		assetReference.data = data;
+		if (assetReference.extension=="zip") assetReference.extension = "json";
 
 		trace("'" + assetReference.filename + " loaded'");
 		
