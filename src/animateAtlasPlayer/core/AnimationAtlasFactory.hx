@@ -14,9 +14,8 @@ class AnimationAtlasFactory extends JsonFactory
     override public function create(reference : AssetReference,assets:AssetManager/*, helper : AssetFactoryHelper, onComplete : Function, onError : Function*/) : Void
     {
         super.create(reference,assets/*, helper, onObjectComplete, onError*/);
-		
 		var name:String = reference.name;
-		var json:Json = reference.data;
+		var json:Dynamic = reference.data;
 		
 		assets.addAsset(name, json);
         
