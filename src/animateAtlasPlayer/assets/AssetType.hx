@@ -28,7 +28,7 @@ class AssetType
         {
             return SOUND;
         }
-        else if (Std.is(asset, ByteArray))
+        else if (Std.is(asset, ByteArrayData))
         {
             return BYTE_ARRAY;
         }

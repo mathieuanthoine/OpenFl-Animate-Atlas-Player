@@ -49,9 +49,9 @@ You can dynamically attach an element in the animation, like swaping a weapon in
 
 		myAnimation.removeItem("*aTag");
 
-Version 1.7
+Version 1.8
 ===========
-* support for windows and mobile exports
+* support for Haxe 4.0.5
 	
 TODO List
 ---------
@@ -60,6 +60,9 @@ TODO List
 
 History
 ========
+Version 1.7
+===========
+* support for windows and mobile exports
 Version 1.6
 -----------
 * value of currentFrame similar to Animate (1 to totalFrames)
