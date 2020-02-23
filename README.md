@@ -51,7 +51,7 @@ You can dynamically attach an element in the animation, like swaping a weapon in
 
 Version 1.9
 ===========
-*Support for Animate Atlas 20+ (only optimized atlas on one sheet)
+* Support for Animate Atlas 20+ (only optimized atlas on one sheet)
 	
 TODO List
 ---------
@@ -65,10 +65,10 @@ TODO List
 History
 ========
 Version 1.8
-===========
+-----------
 * support for Haxe 4.0.5
 Version 1.7
-===========
+-----------
 * support for windows and mobile exports
 Version 1.6
 -----------
