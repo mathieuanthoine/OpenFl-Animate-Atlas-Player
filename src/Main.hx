@@ -4,7 +4,6 @@ import animateAtlasPlayer.assets.AssetManager;
 import animateAtlasPlayer.core.Animation;
 import com.kircode.debug.FPS_Mem;
 import openfl.display.Sprite;
-import openfl.events.MouseEvent;
 
 /**
  * ...
@@ -13,8 +12,8 @@ import openfl.events.MouseEvent;
 class Main extends Sprite 
 { 
 
-	public static inline var PUPPET:String = "Astronaut";
-	public static inline var NUM:Int = 10;
+	public static inline var PUPPET:String = "IsoAssets";
+	public static inline var NUM:Int = 20;
 	
 	private var myAnimation:Animation;
 	private var assetsMgr:AssetManager;
@@ -25,7 +24,7 @@ class Main extends Sprite
 	private static inline var GRID:Int = 30;
 	
 	//private var states:Array<String> = ["_idle", "_run" , "_runFire", "_loading", "_fire"];
-	private var states:Array<String> = ["_idle", "_run" , "_runFire", "_loading", "_fire"];
+	private var states:Array<String> = ["Player_IDLE_UP", "Player_IDLE_DOWN" , "Player_IDLE_LEFT", "Player_IDLE_RIGHT", "Player_IDLE_UP", "Player_MOVE_DOWN" , "Player_MOVE_LEFT", "Player_MOVE_RIGHT"];
 	
 	
 	public function new() 
@@ -55,7 +54,8 @@ class Main extends Sprite
 		
 		for (i in 0...Main.NUM) {
 		
-			myAnimation = assetsMgr.createAnimation(Main.PUPPET+states[Math.floor(Math.random()*states.length)]);
+			//myAnimation = assetsMgr.createAnimation(Main.PUPPET+states[Math.floor(Math.random()*states.length)]);
+			myAnimation = assetsMgr.createAnimation(states[Math.floor(Math.random()*states.length)]);
 			
 			if (Main.NUM == 1) {
 				myAnimation.x = stage.stageWidth * 0.5;
@@ -65,14 +65,14 @@ class Main extends Sprite
 				myAnimation.y = GRID * (1+Math.floor(Math.random()*(stage.stageHeight/GRID-1)));
 			}
 			
-			var lScale:Float = 0.75 + 0.25 * Math.random();
-			myAnimation.scaleX = lScale*(Math.random()>0.5 ? -1 :1);
-			myAnimation.scaleY = lScale;
+			//var lScale:Float = 0.75 + 0.25 * Math.random();
+			//myAnimation.scaleX = lScale*(Math.random()>0.5 ? -1 :1);
+			//myAnimation.scaleY = lScale;
 			addChild(myAnimation);
 			animations.push(myAnimation);
 			myAnimation.gotoAndPlay(Math.floor(myAnimation.totalFrames * Math.random()));
 			//myAnimation.addItem(swap, assetsMgr.createAnimation("arme1"));
-			myAnimation.addEventListener(MouseEvent.CLICK, changeItem);
+			//myAnimation.addEventListener(MouseEvent.CLICK, changeItem);
 		}
 		
 		animations.sort(function (pA:Animation, pB:Animation):Int { return pA.y < pB.y ? -1 :1; });
@@ -92,13 +92,13 @@ class Main extends Sprite
 		//}
 	//}
 	
-	function changeItem(e:MouseEvent):Void 
-	{
-		var lNum:Int = Math.floor(Math.random() * (numItem+1));
-		var lItem:String = item + lNum;
-		trace (lItem);
-		if (lNum == numItem) cast(e.currentTarget, Animation).removeItem(swap);
-		else cast(e.currentTarget, Animation).addItem(swap,assetsMgr.createAnimation(lItem)); 
-	}
+	//function changeItem(e:MouseEvent):Void 
+	//{
+		//var lNum:Int = Math.floor(Math.random() * (numItem+1));
+		//var lItem:String = item + lNum;
+		//trace (lItem);
+		//if (lNum == numItem) cast(e.currentTarget, Animation).removeItem(swap);
+		//else cast(e.currentTarget, Animation).addItem(swap,assetsMgr.createAnimation(lItem)); 
+	//}
 
 }

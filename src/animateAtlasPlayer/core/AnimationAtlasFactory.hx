@@ -30,7 +30,7 @@ class AnimationAtlasFactory extends JsonFactory
 			assets.addAsset(name, new JsonTextureAtlas(texture, json));
 
 		}
-		else if (Reflect.hasField(json,"ANIMATION") && Reflect.hasField(json,"SYMBOL_DICTIONARY"))
+		else if (Reflect.hasField(json,"AN") && Reflect.hasField(json,"SD"))
 		{
 			var suffixIndex : Int = name.indexOf(ANIMATION_SUFFIX);
 			var baseName : String = name.substr(0,(suffixIndex >= 0) ? suffixIndex : 2147483647);

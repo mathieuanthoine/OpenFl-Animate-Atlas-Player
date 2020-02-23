@@ -49,17 +49,24 @@ You can dynamically attach an element in the animation, like swaping a weapon in
 
 		myAnimation.removeItem("*aTag");
 
-Version 1.8
+Version 1.9
 ===========
-* support for Haxe 4.0.5
+*Support for Animate Atlas 20+ (only optimized atlas on one sheet)
 	
 TODO List
 ---------
+* Fix bugs with some animations
+* Multi sheets
+* Export from stage
+* Support for non optimized atlas
 * Clean Code
 * Implements disabled parts of code
 
 History
 ========
+Version 1.8
+===========
+* support for Haxe 4.0.5
 Version 1.7
 ===========
 * support for windows and mobile exports

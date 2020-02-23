@@ -4,7 +4,7 @@ class SymbolType
 {
     
     public static inline var GRAPHIC : String = "graphic";
-    public static inline var MOVIE_CLIP : String = "movieclip";
+    public static inline var MOVIE_CLIP : String = "MC";
     public static inline var BUTTON : String = "button";
     
     public static function isValid(value : String) : Bool

@@ -102,10 +102,13 @@ class AssetManager extends EventDispatcher
 			trace ("TODO: zip package");
 		}
 		else {
-			enqueueSingle(url + "/spritemap.png");
-			enqueueSingle(url+"/spritemap.json");
-			if (Assets.exists(url + "/Animation.zip")) enqueueSingle(url+"/Animation.zip");
-			else enqueueSingle(url + "/Animation.json");	
+			
+			//TODO_2020: gerer la numérotation des spritemap
+			
+			enqueueSingle(url + "/spritemap1.png");
+			enqueueSingle(url+"/spritemap1.json");
+			/*if (Assets.exists(url + "/Animation.zip")) enqueueSingle(url+"/Animation.zip");
+			else*/ enqueueSingle(url + "/Animation.json");	
 		}
 	}
 	

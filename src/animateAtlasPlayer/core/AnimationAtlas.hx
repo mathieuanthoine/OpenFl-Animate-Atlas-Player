@@ -7,47 +7,47 @@ import openfl.display.BitmapData;
 
 typedef Frame = {
 	var name: String;
-	var index: Int;
-	var duration: Int;
-	var elements: Array<Dynamic>;
+	var I: Int;
+	var DU: Int;
+	var E: Array<Dynamic>;
 }
 
 typedef LayerData = {
-	var Layer_name: String;
+	var LN: String;
 	@:optional var Layer_type: String;
 	@:optional var Clipped_by: String;
-	var Frames: Array<Frame>;
+	var FR: Array<Frame>;
 }
 
 typedef Timeline = {
-	var LAYERS : Array<LayerData>;
+	var L : Array<LayerData>;
 	@optional var sortedForRender:Bool;
 }
 
 typedef SymbolData = {
-	var SYMBOL_name: String;
-	@:optional var Instance_Name: String;
-	var TIMELINE: Timeline;
-	var Matrix3D:Dynamic;
+	var SN: String;
+	@:optional var IN: String;
+	var TL: Timeline;
+	var M3D:Dynamic;
 	var bitmap:Dynamic;
-	@:optional var color:Dynamic;
-	@:optional var loop:Dynamic;
-	var symbolType:String;
-	@:optional var firstFrame:Int;
+	@:optional var C:Dynamic;
+	@:optional var LP:Dynamic;
+	var ST:String;
+	@:optional var FF:Int;
 }
 
 typedef SymbolDictionnary = {
-	var Symbols : Array<SymbolData>;
+	var S : Array<SymbolData>;
 }
 
 typedef MetaData = {
-	var frameRate : Int;
+	var FRT : Int;
 }
 
 typedef AnimationJson = {
-  var ANIMATION : Dynamic;
-  var SYMBOL_DICTIONARY : SymbolDictionnary;
-  var metadata : MetaData;
+  var AN : Dynamic;
+  var SD : SymbolDictionnary;
+  var MD : MetaData;
 }
 
 class AnimationAtlas
@@ -188,35 +188,36 @@ class AnimationAtlas
     
     private function parseData(data : AnimationJson) : Void
     {
-        var metaData : MetaData = data.metadata;
+        var metaData : MetaData = data.MD;
         
-        if (metaData != null && metaData.frameRate > 0)
+        if (metaData != null && metaData.FRT > 0)
         {
-            _frameRate = metaData.frameRate;
+            _frameRate = metaData.FRT;
         }
         else
         {
             _frameRate = 24;
         }
+		//TODO2020: bug pas compris
+        //_symbolData = new Map<String,SymbolData>();
         _symbolData = new Map<String,Dynamic>();
         
         // the actual symbol dictionary
-        for (symbolData in data.SYMBOL_DICTIONARY.Symbols)
+        for (symbolData in data.SD.S)
         {
-
-			_symbolData[symbolData.SYMBOL_name]=preprocessSymbolData(symbolData);
+			_symbolData[symbolData.SN]=preprocessSymbolData(symbolData);
         }
         
         // the main animation
-        var defaultSymbolData : SymbolData = preprocessSymbolData(data.ANIMATION);
-        _defaultSymbolName = defaultSymbolData.SYMBOL_name;
+        var defaultSymbolData : SymbolData = preprocessSymbolData(data.AN);
+        _defaultSymbolName = defaultSymbolData.SN;
         _symbolData[_defaultSymbolName]= defaultSymbolData;
 
         // a purely internal symbol for bitmaps - simplifies their handling		
 		_symbolData[Symbol.BITMAP_SYMBOL_NAME]=	{
-                    SYMBOL_name : Symbol.BITMAP_SYMBOL_NAME,
-                    TIMELINE : {
-                        LAYERS : []
+                    SN : Symbol.BITMAP_SYMBOL_NAME,
+                    TL : {
+                        L : []
                     }
                 };	
 				
@@ -224,8 +225,8 @@ class AnimationAtlas
     
     private static function preprocessSymbolData(symbolData : SymbolData) : Dynamic
     {
-        var timeLineData : Timeline = symbolData.TIMELINE;
-        var layerDates : Array<LayerData> = timeLineData.LAYERS;
+        var timeLineData : Timeline = symbolData.TL;
+        var layerDates : Array<LayerData> = timeLineData.L;
         
         // In Animate CC, layers are sorted front to back.
         // In animateAtlasPlayer, it's the other way round - so we simply reverse the layer data.
@@ -237,7 +238,7 @@ class AnimationAtlas
             layerDates.reverse();
         }
         
-        // We replace all "ATLAS_SPRITE_instance" elements with symbols of the same contents.
+        // We replace all "ATLAS_SPRITE_instance/ASI" elements with symbols of the same contents.
         // That way, we are always only dealing with symbols.
         
         var numLayers : Int = layerDates.length;
@@ -245,45 +246,73 @@ class AnimationAtlas
         for (l in 0...numLayers)
         {
             var layerData : LayerData = layerDates[l];
-            var frames : Array<Frame> = cast layerData.Frames;
+            var frames : Array<Frame> = cast layerData.FR;
             var numFrames : Int = frames.length;
+			var lBitmap:Dynamic;
             
             for (f in 0...numFrames)
             {
-                var elements : Array<Dynamic> = cast frames[f].elements;
+                var elements : Array<Dynamic> = cast frames[f].E;
                 var numElements : Int = elements.length;
                 
                 for (e in 0...numElements)
                 {
                     var element : Dynamic = elements[e];
                     
-                    if (Reflect.hasField(element, "ATLAS_SPRITE_instance"))
+                    if (Reflect.hasField(element, "ASI"))
                     {
-                        element = elements[e] = {
-                                            SYMBOL_Instance : {
-                                                SYMBOL_name : Symbol.BITMAP_SYMBOL_NAME,
+                        lBitmap = element.ASI;
+						lBitmap.M3D = expandMatrix(lBitmap.M3D);
+						
+						element = elements[e] = {
+                                            SI : {
+                                                SN : Symbol.BITMAP_SYMBOL_NAME,
                                                 Instance_Name : "InstName",
-                                                bitmap : element.ATLAS_SPRITE_instance,
+                                                bitmap : lBitmap,
                                                 symbolType : SymbolType.GRAPHIC,
                                                 firstFrame : 0,
                                                 loop : LoopMode.LOOP,
-                                                transformationPoint : {
+                                                TRP : {
                                                     x : 0,
                                                     y : 0
                                                 },
-                                                Matrix3D : STD_MATRIX3D_DATA
+                                                M3D : STD_MATRIX3D_DATA
                                             }
                                         };
-                    }
+                    } else {
+						element.SI.M3D=expandMatrix(element.SI.M3D);
+
+					}
                     
                     // not needed - remove decomposed matrix to save some memory
-                    element.SYMBOL_Instance.DecomposedMatrix=null;
+                    element.SI.DecomposedMatrix=null;
                 }
             }
         }
         
         return symbolData;
     }
+	
+	private static function expandMatrix (pMatrix:Array<Float>) : Dynamic {
+		return {
+			m00 : pMatrix[0],
+			m01 : pMatrix[1],
+			m02 : pMatrix[2],
+			m03 : pMatrix[3],
+			m10 : pMatrix[4],
+			m11 : pMatrix[5],
+			m12 : pMatrix[6],
+			m13 : pMatrix[7],
+			m20 : pMatrix[8],
+			m21 : pMatrix[9],
+			m22 : pMatrix[10],
+			m23 : pMatrix[11],
+			m30 : pMatrix[12],
+			m31 : pMatrix[13],
+			m32 : pMatrix[14],
+			m33 : pMatrix[15]
+		}
+	}
     
     private function getSymbolData(name : String) : Dynamic
     {

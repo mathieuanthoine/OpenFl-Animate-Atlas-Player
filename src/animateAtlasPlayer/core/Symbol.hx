@@ -1,8 +1,10 @@
 package animateAtlasPlayer.core;
 
+import animateAtlasPlayer.core.AnimationAtlas.Frame;
 import animateAtlasPlayer.core.AnimationAtlas.LayerData;
 import animateAtlasPlayer.core.AnimationAtlas.SymbolData;
 import animateAtlasPlayer.utils.MathUtil;
+import js.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
@@ -47,10 +49,10 @@ class Symbol extends DisplayObjectContainer
         _data = data;
         _atlas = atlas;
         _composedFrame = -1;
-        _numLayers = data.TIMELINE.LAYERS.length;
+        _numLayers = data.TL.L.length;
         _numFrames = getNumFrames();
         _frameLabels = getFrameLabels();
-        _symbolName = data.SYMBOL_name;
+        _symbolName = data.SN;
         _type = SymbolType.GRAPHIC;
         _loopMode = LoopMode.LOOP;
         
@@ -112,19 +114,21 @@ class Symbol extends DisplayObjectContainer
     
     private function updateLayer(layerIndex : Int) : Void
     {
-        var layer : Layer = getLayer(layerIndex);
 		
-        var frameData : Dynamic = getFrameData(layerIndex, _currentFrame);
-        var elements : Array<Dynamic> = (frameData != null) ? frameData.elements : null;
+		var layer : Layer = getLayer(layerIndex);
+		
+        var frameData : Frame = getFrameData(layerIndex, _currentFrame);
+        var elements : Array<Dynamic> = (frameData != null) ? frameData.E : null;
         var numElements : Int = (elements != null) ? elements.length : 0;
 		var oldSymbol : Symbol;
         
         for (i in 0...numElements)
         {
-            var elementData : SymbolData = elements[i].SYMBOL_Instance;
+            var elementData : SymbolData = elements[i].SI;
+			
             oldSymbol = (layer.numChildren > i) ? try cast(layer.getChildAt(i), Symbol) catch(e:Dynamic) null : null;
             var newSymbol : Symbol = null;
-            var lSymbolName : String = elementData.SYMBOL_name;
+            var lSymbolName : String = elementData.SN;
 			
             if (!_atlas.hasSymbol(lSymbolName))
             {
@@ -149,8 +153,8 @@ class Symbol extends DisplayObjectContainer
 				newSymbol.createLayers();
 
             }
-            
-            newSymbol.setTransformationMatrix(elementData.Matrix3D);	
+
+            newSymbol.setTransformationMatrix(elementData.M3D);	
 			
 			if (layer.name.indexOf(Animation.ITEM_PREFIX) != 0) newSymbol.setBitmap(elementData.bitmap);
 			else {
@@ -158,14 +162,14 @@ class Symbol extends DisplayObjectContainer
 				if (lAnim!=null) newSymbol.setItem(lAnim.getItem(layer.name));
 			}
 			
-			newSymbol.setColor(elementData.color);
-            newSymbol.setLoop(elementData.loop);
-            newSymbol.setType(elementData.symbolType);
+			newSymbol.setColor(elementData.C);
+            newSymbol.setLoop(elementData.LP);
+            newSymbol.setType(elementData.ST);
             
             if (newSymbol.type == SymbolType.GRAPHIC)
             {
-                var firstFrame : Int = elementData.firstFrame;
-                var frameAge : Int = Std.int(_currentFrame - frameData.index);
+                var firstFrame : Int = elementData.FF;
+                var frameAge : Int = Std.int(_currentFrame - frameData.I);
                 
                 if (newSymbol.loopMode == LoopMode.SINGLE_FRAME)
                 {
@@ -220,7 +224,7 @@ class Symbol extends DisplayObjectContainer
         for (i in 0..._numLayers)
         {
             var layer : Layer = new Layer();
-            layer.name = getLayerData(i).Layer_name;
+            layer.name = getLayerData(i).LN;
 			
 			if (getLayerData(i).Clipped_by != null) {
 				maskedLayers[layer] = getLayerData(i).Clipped_by;
@@ -236,7 +240,7 @@ class Symbol extends DisplayObjectContainer
 		if (data != null)
         {
 
-			var texture : BitmapData = _atlas.getTexture(data.name);
+			var texture : BitmapData = _atlas.getTexture(data.N);
             
             if (_bitmap != null)
             {
@@ -249,8 +253,18 @@ class Symbol extends DisplayObjectContainer
                 addChild(_bitmap);
             }
             
-            _bitmap.x = data.Position.x;
-            _bitmap.y = data.Position.y;
+			// Version before 20
+            //_bitmap.x = data.Position.x;
+            //_bitmap.y = data.Position.y;
+			
+			//Version after 20
+			//_bitmap.x = data.DecomposedMatrix.Position.x;
+            //_bitmap.y = data.DecomposedMatrix.Position.y;
+			
+			//Version after 20 (optim)
+			_bitmap.x = data.M3D.m30;
+            _bitmap.y = data.M3D.m31;
+
         }
         else if (_bitmap != null)
         {
@@ -265,7 +279,8 @@ class Symbol extends DisplayObjectContainer
     private function setTransformationMatrix(data : Dynamic) : Void
     {
         sMatrix.setTo(data.m00, data.m01, data.m10, data.m11, data.m30, data.m31);
-        transform.matrix = sMatrix;
+
+		transform.matrix = sMatrix;
     }
     
     private function setColor(data : Dynamic) : Void
@@ -306,13 +321,13 @@ class Symbol extends DisplayObjectContainer
         
         for (i in 0..._numLayers)
         {
-            var frameDates : Array<Dynamic> = cast(getLayerData(i).Frames, Array<Dynamic>);
+            var frameDates : Array<Frame> = getLayerData(i).FR;
             var numFrameDates : Int = (frameDates != null) ? frameDates.length : 0;
-            var layerNumFrames : Int = (numFrameDates != 0) ? frameDates[0].index : 0;
+            var layerNumFrames : Int = (numFrameDates != 0) ? frameDates[0].I : 0;
             
             for (j in 0...numFrameDates)
             {
-                layerNumFrames += frameDates[j].duration;
+                layerNumFrames += frameDates[j].DU;
             }
             
             if (layerNumFrames > numFrames)
@@ -330,15 +345,15 @@ class Symbol extends DisplayObjectContainer
         
         for (i in 0..._numLayers)
         {
-            var frameDates : Array<Dynamic> = cast(getLayerData(i).Frames, Array<Dynamic>);
+            var frameDates : Array<Frame> = getLayerData(i).FR;
             var numFrameDates : Int = (frameDates != null) ? frameDates.length : 0;
             
             for (j in 0...numFrameDates)
             {
-                var frameData : Dynamic = frameDates[j];
+                var frameData : Frame = frameDates[j];
                 if (Reflect.hasField(frameData, "name"))
                 {
-                    labels[labels.length] = new FrameLabel(frameData.name, frameData.index);
+                    labels[labels.length] = new FrameLabel(frameData.name, frameData.I);
                 }
             }
         }
@@ -483,18 +498,18 @@ class Symbol extends DisplayObjectContainer
     
     private function getLayerData(layerIndex : Int) : LayerData
     {
-        return _data.TIMELINE.LAYERS[layerIndex];
+        return _data.TL.L[layerIndex];
     }
     
     private function getFrameData(layerIndex : Int, frameIndex : Int) : Dynamic
     {
-        var frames : Array<Dynamic> = getLayerData(layerIndex).Frames;
+        var frames : Array<Frame> = getLayerData(layerIndex).FR;
         var numFrames : Int = frames.length;
         
         for (i in 0...numFrames)
         {
-            var frame : Dynamic = frames[i];
-            if (frame.index <= frameIndex && frame.index + frame.duration > frameIndex)
+            var frame : Frame = frames[i];
+            if (frame.I <= frameIndex && frame.I + frame.DU > frameIndex)
             {
                 return frame;
             }
