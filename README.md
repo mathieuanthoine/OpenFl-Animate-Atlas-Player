@@ -67,9 +67,11 @@ History
 Version 1.8
 -----------
 * support for Haxe 4.0.5
+
 Version 1.7
 -----------
 * support for windows and mobile exports
+
 Version 1.6
 -----------
 * value of currentFrame similar to Animate (1 to totalFrames)
