@@ -4,7 +4,6 @@ import animateAtlasPlayer.core.AnimationAtlas.Frame;
 import animateAtlasPlayer.core.AnimationAtlas.LayerData;
 import animateAtlasPlayer.core.AnimationAtlas.SymbolData;
 import animateAtlasPlayer.utils.MathUtil;
-import js.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.DisplayObject;
