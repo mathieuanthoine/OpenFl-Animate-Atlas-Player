@@ -1,5 +1,5 @@
 package animateAtlasPlayer.textures;
-import flash.geom.Point;
+import openfl.geom.Point;
 import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
