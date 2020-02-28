@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="OpenFl-Animate-Atlas-Player" package="OpenFl-Animate-Atlas-Player" version="1.8.0" company="Mathieu Anthoine" />
+	<meta title="OpenFl-Animate-Atlas-Player" package="OpenFl-Animate-Atlas-Player" version="1.9.1" company="Mathieu Anthoine" />
 	
 	<!-- output -->
 	<app main="Main" file="OpenFl-Animate-Atlas-Player" path="Export" />
