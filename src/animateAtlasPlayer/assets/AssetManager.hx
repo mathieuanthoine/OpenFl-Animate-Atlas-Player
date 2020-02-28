@@ -132,37 +132,62 @@ class AssetManager extends EventDispatcher
 	}
 
 	private var index:Int;
-	private var callBack:AssetManager->Void;
+	private var onCompleteCallback:AssetManager->Void;
+	private var onErrorCallback:String->Void;
+	private var onProgressCallback:Int->Int->Void;
 
 	public function loadQueue(onComplete : AssetManager->Void, onError : Dynamic = null, onProgress : Dynamic = null) : Void
 	{
-		callBack = onComplete;
+		onCompleteCallback = onComplete;
+		onErrorCallback = onError;
+		onProgressCallback = onProgress;
 		index = 0;
 		loadSingle();
-
 	}
 	
-		
 	private function loadSingle() : Void
 	{
-		if (index >= _queue.length) onLoadComplete();
+		if (index >= _queue.length) {
+			onProgressCallback(100, 100);
+			onLoadComplete();
+		}
 		else{
 			var assetReference : AssetReference = _queue[index]; 
 			if (assetReference.extension == "zip") {
-				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete);
+				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
 			}
-			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete);
-			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete);
+			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
+			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
 		};
+	}
+	
+	private function onSingleError(pError:String):Void 
+	{
+		if (onErrorCallback != null)
+			onErrorCallback(pError);
+		else 
+		    throw pError;
+	}
+	
+	private function onSingleProgress(pLoaded:Int, pTotatToLoad:Int):Void {
+		if (onProgressCallback != null){
+			var lCurrentLoad:Float = pLoaded / pTotatToLoad;
+			var lProgressForOneSingle:Float = 1 / _queue.length;
+			var lProgress:Int = Math.floor(((index - 1) * lProgressForOneSingle + lProgressForOneSingle * lCurrentLoad) * 100);
+			
+			onProgressCallback(lProgress, 100);
+		}		
 	}
 	
 	private function onSingleComplete (pData:Dynamic) :Void 
 	{
 		var data;
+		
 		if (Std.is(pData, ByteArrayData)) {
 			var entries:List<Entry> = Reader.readZip(new BytesInput(pData));
 			var bad:ByteArrayData = new ByteArrayData();
 			var entry:Entry = entries.first();
+			
 			if (entry.compressed) {
 				bad = new ByteArrayData();
 				bad.writeBytes(entry.data);
@@ -175,6 +200,7 @@ class AssetManager extends EventDispatcher
 
 		var assetReference : AssetReference = _queue[index];
 		assetReference.data = data;
+		
 		if (assetReference.extension=="zip") assetReference.extension = "json";
 
 		trace("'" + assetReference.filename + " loaded'");
@@ -198,14 +224,12 @@ class AssetManager extends EventDispatcher
 			{
 				assetFactory.create(asset, this/*, helper, onComplete, onCreateError*/);
 			}
-
 		}
-
+		
 		_queue = [];
 		index = 0;
-
-		callBack(this);
-
+		
+		onCompleteCallback(this);
 	}
 	
 	
