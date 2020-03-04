@@ -139,44 +139,41 @@ class AssetManager extends EventDispatcher
 	public function loadQueue(onComplete : AssetManager->Void, onError : Dynamic = null, onProgress : Dynamic = null) : Void
 	{
 		onCompleteCallback = onComplete;
-		onErrorCallback = onError;
-		onProgressCallback = onProgress;
+		onErrorCallback = onError==null ? onDefaultErrorCallback : onError;
+		onProgressCallback = onProgress==null ? onDefaultProgressCallback : onProgress ;
 		index = 0;
 		loadSingle();
 	}
 	
+	private function onDefaultProgressCallback (pLoaded:Int, pTotalToLoad:Int):Void {
+		trace (pLoaded, pTotalToLoad);
+	};
+	
+	private function onDefaultErrorCallback (pError:String):Void {
+		throw pError;
+	};
+	
 	private function loadSingle() : Void
 	{
 		if (index >= _queue.length) {
-			onProgressCallback(100, 100);
+			onSingleProgress(100, 100);
 			onLoadComplete();
 		}
 		else{
 			var assetReference : AssetReference = _queue[index]; 
 			if (assetReference.extension == "zip") {
-				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
+				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete).onError(onErrorCallback).onProgress(onSingleProgress);
 			}
-			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
-			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
+			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete).onError(onErrorCallback).onProgress(onSingleProgress);
+			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete).onError(onErrorCallback).onProgress(onSingleProgress);
 		};
 	}
 	
-	private function onSingleError(pError:String):Void 
-	{
-		if (onErrorCallback != null)
-			onErrorCallback(pError);
-		else 
-		    throw pError;
-	}
-	
-	private function onSingleProgress(pLoaded:Int, pTotatToLoad:Int):Void {
-		if (onProgressCallback != null){
-			var lCurrentLoad:Float = pLoaded / pTotatToLoad;
+	private function onSingleProgress(pLoaded:Int, pTotalToLoad:Int):Void {
+			var lCurrentLoad:Float = pLoaded / pTotalToLoad;
 			var lProgressForOneSingle:Float = 1 / _queue.length;
 			var lProgress:Int = Math.floor(((index - 1) * lProgressForOneSingle + lProgressForOneSingle * lCurrentLoad) * 100);
-			
-			onProgressCallback(lProgress, 100);
-		}		
+			onProgressCallback(lProgress, 100);	
 	}
 	
 	private function onSingleComplete (pData:Dynamic) :Void 
