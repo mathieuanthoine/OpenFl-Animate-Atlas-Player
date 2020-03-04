@@ -104,30 +104,30 @@ class MovieBehavior extends EventDispatcher
         {
             return;
         }
-
+        
         // The tricky part in this method is that whenever a callback is executed
         // (a frame action or a 'COMPLETE' event handler), that callback might modify the movie.
         // Thus, we have to start over with the remaining time whenever that happens.
-
+        
         var frame : MovieFrame = _frames[_currentFrame];
         var totalTime : Float = this.totalTime;
-
-        if (_wasStopped)
-        {
-            // if the clip was stopped and started again,{
-
+        
+        if (_wasStopped) {
+        
+			// if the clip was stopped and started again,
+            
             // actions of this frame need to be repeated.
-
+            
             _wasStopped = false;
-
-            if (frame.numActions > 0)
+            
+            if (frame.numActions>0)
             {
                 frame.executeActions(_target, _currentFrame);
                 advanceTime(passedTime);
                 return;
             }
         }
-
+        
         if (_currentTime >= totalTime)
         {
             if (_loop)
@@ -136,8 +136,8 @@ class MovieBehavior extends EventDispatcher
                 _currentFrame = 0;
                 _onFrameChanged(0);
                 frame = _frames[0];
-
-                if (frame.numActions > 0)
+                
+                if (frame.numActions>0)
                 {
                     frame.executeActions(_target, _currentFrame);
                     advanceTime(passedTime);
@@ -149,23 +149,23 @@ class MovieBehavior extends EventDispatcher
                 return;
             }
         }
-
-        var finalFrame : Int = (_frames.length - 1);
+        
+        var finalFrame : Int = Std.int(_frames.length - 1);
         var frameStartTime : Float = _currentFrame * _frameDuration;
         var restTimeInFrame : Float = _frameDuration - _currentTime + frameStartTime;
         var dispatchCompleteEvent : Bool = false;
         var previousFrameID : Int = _currentFrame;
         var numActions : Int;
-
+        
         while (passedTime >= restTimeInFrame)
         {
             passedTime -= restTimeInFrame;
             _currentTime = frameStartTime + _frameDuration;
-
+            
             if (_currentFrame == finalFrame)
             {
-                _currentTime = totalTime;  // prevent floating point problem
-
+                _currentTime = totalTime;  // prevent floating point problem  
+                
                 if (hasEventListener(Event.COMPLETE))
                 {
                     dispatchCompleteEvent = true;
@@ -186,13 +186,14 @@ class MovieBehavior extends EventDispatcher
                 _currentFrame += 1;
                 frameStartTime += _frameDuration;
             }
-
+            
             frame = _frames[_currentFrame];
             numActions = frame.numActions;
-
+            
             if (dispatchCompleteEvent)
             {
                 _onFrameChanged(_currentFrame);
+                //TODO: dispatchEventWith(Event.COMPLETE);
                 dispatchEvent(new Event(Event.COMPLETE));
                 advanceTime(passedTime);
                 return;
@@ -204,21 +205,21 @@ class MovieBehavior extends EventDispatcher
                 advanceTime(passedTime);
                 return;
             }
-
+            
             restTimeInFrame = _frameDuration;
-
+            
             // prevent a mean floating point problem (issue #851)
             if (passedTime + E > restTimeInFrame && passedTime - E < restTimeInFrame)
             {
                 passedTime = restTimeInFrame;
             }
         }
-
+        
         if (previousFrameID != _currentFrame)
         {
             _onFrameChanged(_currentFrame);
         }
-
+        
         _currentTime += passedTime;
     }
     
@@ -228,11 +229,12 @@ class MovieBehavior extends EventDispatcher
     }
     private function set_numFrames(value : Int) : Int
     {
-        _frames = [];
         for (i in numFrames...value)
         {
             _frames[i] = new MovieFrame();
         }
+        
+	   _frames = _frames.slice(0, value);
         return value;
     }
     
@@ -248,11 +250,11 @@ class MovieBehavior extends EventDispatcher
     private function set_currentTime(value : Float) : Float
     {
         value = MathUtil.clamp(value, 0, totalTime);
-
+        
         var prevFrame : Int = _currentFrame;
         _currentFrame = Std.int(value / _frameDuration);
         _currentTime = value;
-
+        
         if (prevFrame != _currentFrame)
         {
             _onFrameChanged(_currentFrame);
@@ -270,7 +272,7 @@ class MovieBehavior extends EventDispatcher
         {
             throw new ArgumentError("Invalid frame rate");
         }
-
+        
         var newFrameDuration : Float = 1.0 / value;
         var acceleration : Float = newFrameDuration / _frameDuration;
         _currentTime *= acceleration;
@@ -295,11 +297,11 @@ class MovieBehavior extends EventDispatcher
     private function set_currentFrame(value : Int) : Int
     {
         value = Std.int(MathUtil.clamp(value, 0, numFrames));
-
+        
         var prevFrame : Int = _currentFrame;
         _currentTime = _frameDuration * value;
         _currentFrame = value;
-
+        
         if (prevFrame != _currentFrame)
         {
             _onFrameChanged(_currentFrame);
