@@ -1,6 +1,5 @@
 package animateAtlasPlayer.assets;
 
-import openfl.Vector;
 import animateAtlasPlayer.core.Animation;
 import animateAtlasPlayer.core.AnimationAtlas;
 import animateAtlasPlayer.core.AnimationAtlasFactory;
@@ -155,16 +154,10 @@ class AssetManager extends EventDispatcher
 		else{
 			var assetReference : AssetReference = _queue[index]; 
 			if (assetReference.extension == "zip") {
-				Assets.loadBytes(assetReference.url)
-				.onComplete(onSingleComplete)
-				.onError(onSingleError)
-				.onProgress(onSingleProgress);
+				Assets.loadBytes(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
 			}
 			else if (assetReference.extension == "json")  Assets.loadText(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
-			else Assets.loadBitmapData(assetReference.url)
-				.onComplete(onSingleComplete)
-				.onError(onSingleError)
-				.onProgress(onSingleProgress);
+			else Assets.loadBitmapData(assetReference.url).onComplete(onSingleComplete).onError(onSingleError).onProgress(onSingleProgress);
 		};
 	}
 	
@@ -288,12 +281,12 @@ class AssetManager extends EventDispatcher
 
 	public function createAnimation(name : String) : Animation
 	{
-		var atlasNames:Array<String> = getAnimationAtlasNames("", sNames);
-		var animation:Animation = null;
 
-		for(atlasName in atlasNames)
+		var atlasNames : Array<String> = getAnimationAtlasNames("", sNames);
+		var animation : Animation = null;
+		for (atlasName in atlasNames)
 		{
-			var atlas:AnimationAtlas = getAnimationAtlas(atlasName);
+			var atlas : AnimationAtlas = getAnimationAtlas(atlasName);
 			if (atlas.hasAnimation(name))
 			{
 				animation = atlas.createAnimation(name);
@@ -301,10 +294,9 @@ class AssetManager extends EventDispatcher
 			}
 		}
 
-		if (animation == null && atlasNames.indexOf(name) != -1)
-			animation = getAnimationAtlas(name).createAnimation();
-
-		sNames = new Array<String>();
+		sNames = [];
+		animation.name = name;
+		
 		return animation;
 	}
 
@@ -345,10 +337,8 @@ class AssetManager extends EventDispatcher
 		}
 
 		var store : Map<String,Dynamic> = _assets[type];
-		if (store != null)
-			return store[name];
-		else
-			return null;
+		if (store != null) return store[name];
+		else return null;
 
 	}
 

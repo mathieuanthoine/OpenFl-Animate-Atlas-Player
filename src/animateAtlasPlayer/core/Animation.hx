@@ -17,26 +17,26 @@ class Animation extends DisplayObjectContainer
     public var isPlaying(get, never) : Bool;
     private var totalTime(get, never) : Float;
 
-    public var _symbol : Symbol;
+    private var _symbol : Symbol;
     private var _behavior : MovieBehavior;
     private var _cumulatedTime : Float = 0.0;
 	
 	private var items:Map<String,DisplayObject> = new Map<String,DisplayObject>();
 	
 	public static inline var ITEM_PREFIX:String = "*";
-
-    public function new(symbolName:String, atlas:AnimationAtlas)
+    
+    public function new(data : Dynamic, atlas : AnimationAtlas)
     {
         super();
-        _symbol = new Symbol(atlas.getSymbolData(symbolName), atlas);
-        addChild(_symbol);
-        //_symbol.createLayers();
+        _symbol = new Symbol(data, atlas);
+		addChild(_symbol);
+		_symbol.createLayers();
         _symbol.update();
-
+        
         _behavior = new MovieBehavior(this, onFrameChanged, atlas.frameRate);
         _behavior.numFrames = _symbol.numFrames;
         _behavior.addEventListener(Event.COMPLETE, onComplete);
-        addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		addEventListener(Event.ENTER_FRAME, onEnterFrame);
         play();
     }
     
@@ -83,7 +83,8 @@ class Animation extends DisplayObjectContainer
     
     private function gotoFrame(indexOrLabel : Dynamic) : Void
     {
-        currentFrame = (Std.is(indexOrLabel, String)) ? _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
+        currentFrame = (Std.is(indexOrLabel, String)) ? 
+        _symbol.getFrame(Std.string(indexOrLabel)) : Std.int(indexOrLabel);
     }
     
 	private function onEnterFrame (pEvent:Event):Void {
@@ -123,11 +124,11 @@ class Animation extends DisplayObjectContainer
     
     private function get_currentFrame() : Int
     {
-        return _behavior.currentFrame;
+        return _behavior.currentFrame+1;
     }
     private function set_currentFrame(value : Int) : Int
     {
-        _behavior.currentFrame = value;
+        _behavior.currentFrame = value-1;
         return value;
     }
     
@@ -173,11 +174,36 @@ class Animation extends DisplayObjectContainer
     {
         return _behavior.totalTime;
     }
-
-    public function getItem (name:String):DisplayObject {
-		if (items[name] == null)
-            items[name] = new Sprite();
+	
+	public function addItem(swapName:String, pItem:DisplayObject = null):Void {
+		if (swapName.indexOf(ITEM_PREFIX) != 0) throw new Error("Item prefix (" + ITEM_PREFIX + ") missing."); 
+		if (pItem == null) items[swapName] =  new Sprite();
+		else items[swapName] = pItem;
+		setItem(swapName, this , items[swapName]);
+	}
+	
+	public function removeItem(swapName:String):Void {
+		addItem(swapName);
+	}
+	
+	public function getItem (name:String):DisplayObject {
+		if (items[name] == null) items[name] = new Sprite();
 		return items[name];
 	}
+	
+	private function setItem (itemName:String,symbol:DisplayObjectContainer,item:DisplayObject=null): Void {
+		
+		var child:DisplayObjectContainer;
+		for (i in 0...symbol.numChildren) {
+			if (!Std.is(symbol.getChildAt(i), DisplayObjectContainer)) continue;
+			child = cast(symbol.getChildAt(i), DisplayObjectContainer);
+			if (child.name.indexOf(itemName)==0 && child.numChildren>0) cast(child.getChildAt(0), Symbol).setItem(item);
+			else setItem (itemName, cast(child,DisplayObjectContainer), item);
+		}
+		
+	}
+	
+
+
 }
 
