@@ -291,6 +291,9 @@ class AssetManager extends EventDispatcher
 			}
 		}
 
+		if (animation == null)
+			throw 'Animation with name "$name" not found';
+
 		sNames = [];
 		animation.name = name;
 		
